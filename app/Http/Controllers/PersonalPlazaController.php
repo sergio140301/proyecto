@@ -44,7 +44,7 @@ class PersonalPlazaController extends Controller
         $accion = "crear";
         $txtbtn = "guardar";
         $desabilitado = "";
-        return view('catalogos.personalplazas.frm', compact('personalplazas', "personals", "personalplaza", "plazas", 'txtbtn', 'accion', 'desabilitado'));
+        return view('catalogos..personalPlazas.frm', compact('personalplazas', "personals", "personalplaza", "plazas", 'txtbtn', 'accion', 'desabilitado'));
     }
 
     public function store(Request $request)
@@ -52,7 +52,7 @@ class PersonalPlazaController extends Controller
         $validado = $request->validate($this->validado);
         PersonalPlaza::create($validado);
 
-        return redirect()->route('personalplazas.index')->with('success', 'Personal Plaza creado con éxito');
+        return redirect()->route('personalPlazas.index')->with('success', 'Personal Plaza creado con éxito');
     }
 
     public function show(PersonalPlaza $personalplaza)
@@ -65,7 +65,7 @@ class PersonalPlazaController extends Controller
         $txtbtn = "regresar";
         $desabilitado = "disabled";
 
-        return view('catalogos.personalplazas.frm', compact('personalplaza', 'personals', 'personalplazas', 'plazas', 'desabilitado', 'accion', 'txtbtn'));
+        return view('catalogos.personalPlazas.frm', compact('personalplaza', 'personals', 'personalplazas', 'plazas', 'desabilitado', 'accion', 'txtbtn'));
     }
 
     public function edit(PersonalPlaza $personalplaza)
@@ -77,7 +77,7 @@ class PersonalPlazaController extends Controller
         $accion = "actualizar";
         $txtbtn = "Actualizar Datos";
         $desabilitado = "";
-        return view('catalogos.personalplazas.frm', compact('personalplaza', 'accion', 'txtbtn', 'personalplazas', 'plazas', 'desabilitado', 'personals'));
+        return view('catalogos.personalPlazas.frm', compact('personalplaza', 'accion', 'txtbtn', 'personalplazas', 'plazas', 'desabilitado', 'personals'));
     }
 
     public function update(Request $request, PersonalPlaza $personalplaza)
@@ -85,19 +85,19 @@ class PersonalPlazaController extends Controller
         $validado = $request->validate($this->validado);
         $personalplaza->update($validado);
 
-        return redirect()->route('personalplazas.index')->with('success', 'Personal Plaza actualizado con éxito');
+        return redirect()->route('personalPlazas.index')->with('success', 'Personal Plaza actualizado con éxito');
     }
 
     public function eliminar(PersonalPlaza $personalplaza)
     {
         $personalplazas = PersonalPlaza::paginate(5);
-        return view('catalogos.personalplazas.eliminar', compact("personalplazas", 'personalplaza'));
+        return view('catalogos.personalPlazas.eliminar', compact("personalplazas", 'personalplaza'));
     }
 
     public function destroy(PersonalPlaza $personalplaza)
     {
         $personalplaza->delete();
 
-        return redirect()->route('personalplazas.index')->with('success', 'Personal Plaza eliminado con éxito');
+        return redirect()->route('personalPlazas.index')->with('success', 'Personal Plaza eliminado con éxito');
     }
 }
