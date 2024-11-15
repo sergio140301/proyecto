@@ -216,7 +216,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     // Ruta para mostrar todos los PersonalPlazas
-    Route::get('/catalogos/personalplazas', [PersonalPlazaController::class, 'index'])->name('personalplazas.index');
+    Route::get('/catalogos/personalPlazas', [PersonalPlazaController::class, 'index'])->name('personalplazas.index');
 
     // Rutas para las operaciones CRUD (resource) en PersonalPlazas
     Route::resource('personalplazas', PersonalPlazaController::class);
