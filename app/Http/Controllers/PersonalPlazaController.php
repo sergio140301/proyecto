@@ -31,7 +31,7 @@ class PersonalPlazaController extends Controller
         ->with(['personal', 'plaza'])
         ->paginate(5);
 
-        return view('catalogos.personalplazas.index', compact('personalplazas', 'txtBuscar', 'personal'));
+        return view('catalogos.personalPlazas.index', compact('personalplazas', 'txtBuscar', 'personal')); //ke
     }
 
     public function create()
