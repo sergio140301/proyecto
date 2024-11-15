@@ -34,6 +34,7 @@ class PersonalPlazaController extends Controller
         return view('catalogos.personalPlazas.index', compact('personalplazas', 'txtBuscar', 'personal')); //ke
     }
 
+    
     public function create()
     {
         $personalplazas = PersonalPlaza::paginate(5);
