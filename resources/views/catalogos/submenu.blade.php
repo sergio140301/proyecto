@@ -100,7 +100,7 @@
             <li class="list-group-item d-flex justify-content-between align-items-start">
                 <div class="ms-2 me-auto">
                     <div class="fw-bold">Personal Plazas</div>
-                    <a href="{{ route('personalPlazas.index') }}"><button class="badge text-bg-warning rounded-pill">Ver Personal Plazas</button></a> 
+                    <a href="{{ route('personalplazas.index') }}"><button class="badge text-bg-warning rounded-pill">Ver Personal Plazas</button></a>
                 </div>
                 <span class="badge text-bg-primary rounded-pill">10</span> 
             </li>

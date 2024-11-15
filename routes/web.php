@@ -214,7 +214,7 @@ Route::middleware('auth')->group(function () {
 
 //**2 LLAVES FORANEAS  PERSONAL ID Y PLAZA ID*/
 //PERSONALPLAZAS
-Route::resource('personalplazas', PersonalPlazaController::class);
+Route::resource('personalPlazas', PersonalPlazaController::class);
 
 Route::middleware('auth')->group(function () {
     Route::get('/personalplazas.index', [PersonalPlazaController::class, 'index'])->name('personalplazas.index');
