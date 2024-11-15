@@ -212,22 +212,20 @@ Route::middleware('auth')->group(function () {
 });
 
 
-
+//**2 LLAVES FORANEAS  PERSONAL ID Y PLAZA ID*/
+//PERSONALPLAZAS
+Route::resource('personalplazas', PersonalPlazaController::class);
 
 Route::middleware('auth')->group(function () {
-    // Ruta para mostrar todos los PersonalPlazas
-    Route::get('/catalogos/personalPlazas', [PersonalPlazaController::class, 'index'])->name('personalplazas.index');
-
-    // Rutas para las operaciones CRUD (resource) en PersonalPlazas
-    Route::resource('personalplazas', PersonalPlazaController::class);
-
-    // Ruta para confirmar la eliminación de un PersonalPlaza
-    Route::get('/personalplazas.eliminar/{personalplaza}', [PersonalPlazaController::class, 'eliminar'])->name('personalplazas.eliminar');
-
-    // Ruta para eliminar un PersonalPlaza
+    Route::get('/personalplazas.index', [PersonalPlazaController::class, 'index'])->name('personalplazas.index');
+    Route::get('/personalplazas.create', [PersonalPlazaController::class, 'create'])->name('personalplazas.create');
+    Route::post('/personalplazas.store', [PersonalPlazaController::class, 'store'])->name('personalplazas.store');
+    Route::get('/personalplazas.show/{personalplaza}', [PersonalPlazaController::class, 'show'])->name('personalplazas.show');
+    Route::get('/personalplazas.edit/{personalplaza}', [PersonalPlazaController::class, 'edit'])->name('personalplazas.edit');
+    Route::post('/personalplazas.update/{personalplaza}', [PersonalPlazaController::class, 'update'])->name('personalplazas.update');
+    Route::get('/personalplazas/eliminar/{personalplaza}', [PersonalPlazaController::class, 'eliminar'])->name('personalplazas.eliminar');
     Route::delete('/personalplazas/{personalplaza}', [PersonalPlazaController::class, 'destroy'])->name('personalplazas.destroy');
 });
-
 
 
 
