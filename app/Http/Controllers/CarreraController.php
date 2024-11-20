@@ -53,7 +53,7 @@ class CarreraController extends Controller
     
 
         $validado = $request->validate($this->validado);
-   
+    
 
 
         Carrera::create($validado);

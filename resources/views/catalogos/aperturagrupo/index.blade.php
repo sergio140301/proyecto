@@ -42,11 +42,11 @@
                                 <label for="grupo" class="form-label">Grupo:</label>
                                 <input type="text" class="form-control" id="grupo" name="grupo"
                                     value="{{ session('grupo') }}" required />
-                                @error('grupo')
-                                    <div class="alert alert-danger mt-2">
-                                        <p>{{ $message }}</p>
+                                @if ($errors->has('grupo'))
+                                    <div class="alert alert-danger">
+                                        <p>Error en el nombre del Grupo, ya existe! {{ $errors->first('grupo') }}</p>
                                     </div>
-                                @enderror
+                                @endif
 
                                 <label for="maxAlumnos" class="form-label">Max Alumnos:</label>
                                 <input type="number" class="form-control" id="maxAlumnos" name="maxAlumnos"
@@ -59,6 +59,7 @@
                         </div>
                     </div>
 
+                {{-- hola mundo! --}}
                     <!-- PERIODO Y ACCIONES -->
                     <div class="col-md-4 mb-3">
                         <div class="card">
