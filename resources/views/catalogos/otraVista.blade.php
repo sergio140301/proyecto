@@ -20,12 +20,10 @@
                        <h2>BIENVENIDOS <br>
                            A HORARIOS 2024
                        </h2>
-                       <a href="{{ route('apertura_materias') }}" target="_blank">
-                        <h1>INICIAR LA APERTURA DE MATERIAS</h1>
-                    </a><br>
+                      
                     
                     <a href="{{ route('materiasabiertas') }}">
-                        <h1>ESQUEMA DEL PROFE APERTURA DE MATERIAS</h1>
+                        <h1>ABRIR MATERIAS</h1>
                     </a><br>
 
                        <p> Nuestra visión es que los momentos de nuestros alumnos <strong>sean</strong> <br>

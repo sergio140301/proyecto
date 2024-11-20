@@ -17,7 +17,10 @@ use App\Http\Controllers\LugarController;
 use App\Http\Controllers\HoraController;
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\PersonalPlazaController;
+use App\Http\Controllers\GrupoHorarioController;
 
+
+Route::resource('aperturagrupo', GrupoHorarioController::class);
 
 //CATALOGO//
 //rutas de catalogos
@@ -234,7 +237,7 @@ Route::middleware('auth')->group(function () {
 //rutas de materiasAbiertas
 
 Route::middleware('auth')->group(function () {
-    Route::get('/materiasabiertas/index', [MateriaAbiertaController::class, 'index'])->name('materiasabiertas.index');
+    Route::get('/materiasabiertas.index', [MateriaAbiertaController::class, 'index'])->name('materiasabiertas.index');
 
     Route::resource('materiasabiertas', MateriaAbiertaController::class);
     
@@ -246,7 +249,17 @@ Route::middleware('auth')->group(function () {
 
 
 
+Route::middleware('auth')->group(function () {
+    // Ruta para mostrar el índice del grupo de horarios
+    Route::get('/aperturagrupo.index', [GrupoHorarioController::class, 'index'])->name('aperturagrupo.index');
 
+    // Rutas para las acciones CRUD de grupoHorario
+    Route::resource('aperturagrupo', GrupoHorarioController::class);
+    
+    // Ruta alternativa para mostrar grupoHorarios
+    Route::get('/apertura-grupo', [GrupoHorarioController::class, 'index'])->name('aperturagrupo');
+});
+ 
 
 
 
@@ -269,9 +282,6 @@ Route::middleware('auth')->group(function () {
 
 
 use App\Http\Controllers\ProyectoPersonaleController;
-
-
-
 
 
 

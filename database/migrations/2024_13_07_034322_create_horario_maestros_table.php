@@ -17,10 +17,10 @@ return new class extends Migration
             $table->text('observaciones')->nullable(); 
             $table->foreignId('personal_id')       
                   ->constrained()                 
-                  ->onDelete('cascade');          
+                  ->onUpdate('cascade');          
             $table->foreignId('periodo_id')       
                   ->constrained()                 
-                  ->onDelete('cascade');         
+                  ->onUpdate('cascade');         
             $table->timestamps();                 
         });
         

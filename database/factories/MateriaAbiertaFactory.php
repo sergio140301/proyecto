@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Carrera;
+use App\Models\Materia;
+use App\Models\Periodo;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class MateriaAbiertaFactory extends Factory
 {
+    protected $model = MateriaAbierta::class;
     /**
      * Define the model's default state.
      *
@@ -17,7 +21,9 @@ class MateriaAbiertaFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'periodo_id' => Periodo::factory(),   // Genera un periodo aleatorio
+            'carrera_id' => Carrera::factory(),   // Genera una carrera aleatoria
+            'materia_id' => Materia::factory(),   // Genera una materia aleatoria
         ];
     }
 }

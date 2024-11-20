@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();                         
             $table->foreignId('horario_maestro_id') 
                   ->constrained()                 
-                  ->onDelete('cascade');        
+                  ->onUpdate('cascade');        
             $table->foreignId('grupo_id')          
                   ->constrained()                 
-                  ->onDelete('cascade');          
+                  ->onUpdate('cascade');          
             $table->timestamps();       
         });
     }

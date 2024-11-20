@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('grupos', function (Blueprint $table) {
             $table->id(); 
-            $table->string('lugar', 100); 
-            $table->unsignedInteger('maxAlumnos'); 
-            $table->date('fecha_creacion'); 
-            $table->foreignId('periodo_id')->constrained()->onDelete('cascade'); 
-            $table->foreignId('materia_id')->constrained()->onDelete('cascade');  
-            $table->foreignId('personal_id')->constrained()->onDelete('cascade'); 
+            $table->string('grupo')->unique(); 
+            $table->string('descripcion');
+            $table->integer('maxAlumnos'); 
+            $table->foreignId('periodo_id')->constrained()->onUpdate('cascade'); 
+            $table->foreignId('materia_id')->constrained()->onUpdate('cascade');  
+            $table->foreignId('personal_id')->constrained()->onUpdate('cascade'); 
             $table->timestamps(); 
         });
     }

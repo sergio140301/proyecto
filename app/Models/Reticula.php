@@ -20,7 +20,7 @@ class Reticula extends Model
     
     public function materias(): HasMany 
     {
-        return $this->hasMany(Materia::class, 'materia_id'); 
+        return $this->hasMany(Materia::class); 
     }
 
     // Define la relación con el modelo Carrera

@@ -23,6 +23,10 @@ class Materia extends Model
         return $this->hasMany(MateriaAbierta::class);
     }
 
+    public function carreras()
+    {
+        return $this->belongsTo(Carrera::class, 'carrera_id');
+    }
  
 
      protected $fillable = [

@@ -21,14 +21,9 @@ class GrupoFactory extends Factory
      * @return array<string, mixed>
      */
     public function definition(): array
-        {
-            return [
-                'lugar' => $this->faker->streetAddress(), 
-                'maxAlumnos' => $this->faker->numberBetween(10, 20), 
-                'fecha_creacion' => $this->faker->date(), 
-                'periodo_id' => Periodo::factory(),
-                'materia_id' => Materia::factory(), 
-                'personal_id' => Personal::factory(), 
-            ];
+    {
+        return [
+          ///
+        ];
     }
 }

@@ -34,7 +34,7 @@ class PersonalPlazaController extends Controller
         return view('catalogos.personalPlazas.index', compact('personalplazas', 'txtBuscar', 'personal')); //ke
     }
 
-    
+
     public function create()
     {
         $personalplazas = PersonalPlaza::paginate(5);
@@ -45,7 +45,7 @@ class PersonalPlazaController extends Controller
         $accion = "crear";
         $txtbtn = "guardar";
         $desabilitado = "";
-        return view('catalogos..personalPlazas.frm', compact('personalplazas', "personals", "personalplaza", "plazas", 'txtbtn', 'accion', 'desabilitado'));
+        return view('catalogos.personalPlazas.frm', compact('personalplazas', "personals", "personalplaza", "plazas", 'txtbtn', 'accion', 'desabilitado'));
     }
 
     public function store(Request $request)

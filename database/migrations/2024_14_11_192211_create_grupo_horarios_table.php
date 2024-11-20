@@ -15,12 +15,8 @@ return new class extends Migration
             $table->id();                     
             $table->string('dia');             
             $table->time('hora');              
-            $table->foreignId('grupo_id')     
-                  ->constrained()             
-                  ->onDelete('cascade');     
-            $table->foreignId('lugar_id')      
-                  ->constrained()             
-                  ->onDelete('cascade');      
+            $table->foreignId('grupo_id')->constrained()->onUpdate('cascade');     
+            $table->foreignId('lugar_id')->constrained()->onUpdate('cascade');      
             $table->timestamps();             
         });
     }

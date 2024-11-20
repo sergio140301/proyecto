@@ -24,6 +24,8 @@ class Carrera extends Model
     }
 
 
+
+
     public function reticulas()
     {
         return $this->hasMany(Reticula::class);

@@ -7,34 +7,27 @@ use Illuminate\Database\Eloquent\Model;
 
 class MateriaAbierta extends Model
 {
-    /** @use HasFactory<\Database\Factories\MateriaAbiertaFactory> */
     use HasFactory;
 
-    // Definimos los campos que se pueden asignar en masa
-    protected $fillable = [
-        'periodo_id',
-        'carrera_id',
-        'materia_id',
-    ];
 
-    // Definimos las relaciones con otros modelos
+
+    protected $fillable = ['periodo_id', 'carrera_id', 'materia_id'];
+
     public function periodo()
     {
-        return $this->belongsTo(Periodo::class);
+        return $this->belongsTo(Periodo::class, 'periodo_id');
     }
 
     public function carrera()
     {
-        return $this->belongsTo(Carrera::class);
+        return $this->belongsTo(Carrera::class,'carrera_id');
     }
-
 
     public function materia()
     {
-        return $this->belongsTo(Materia::class);
+        return $this->belongsTo(Materia::class,'materia_id');
     }
 
-    
     public function grupos()
     {
         return $this->hasMany(Grupo::class);

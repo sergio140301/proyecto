@@ -15,9 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombrelugar');       
             $table->string('nombrecorto');     
-            $table->foreignId('edificio_id')    
-                  ->constrained()              
-                  ->onUpdate('cascade');      
+            $table->foreignId('edificio_id')->constrained()->onUpdate('cascade');      
             $table->timestamps();
         });
     }
