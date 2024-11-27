@@ -38,6 +38,11 @@ public function depto(): BelongsTo
     return $this->belongsTo(Depto::class, 'depto_id');
 }
 
+public function tutorias()
+{
+    return $this->hasMany(Tutoria::class, 'carrera_id');
+}
+
 protected $fillable = [
     'idCarrera',
     'nombreCarrera',

@@ -11,6 +11,7 @@ class GrupoHorario extends Model
     /** @use HasFactory<\Database\Factories\GrupoHorarioFactory> */
     use HasFactory;
 
+    protected $table = 'grupo_horarios';
     protected $fillable = ['dia', 'hora', 'grupo_id', 'lugar_id'] ;
 
     public function grupo(): BelongsTo

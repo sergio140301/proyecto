@@ -13,14 +13,41 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CatalogoController;
 use App\Http\Controllers\ReticulaController;
 use App\Http\Controllers\EdificioController;
+use App\Http\Controllers\Grupo18283Controller;
+use App\Http\Controllers\GrupoHorario18283Controller;
 use App\Http\Controllers\LugarController;
 use App\Http\Controllers\HoraController;
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\PersonalPlazaController;
 use App\Http\Controllers\GrupoHorarioController;
 
+//EXAMEN TABLA GRUPOS
+Route::resource('grupos18283', Grupo18283Controller::class);
 
-Route::resource('aperturagrupo', GrupoHorarioController::class);
+Route::middleware('auth')->group(function () {
+    Route::get('/grupos18283.index', [Grupo18283Controller::class, 'index'])->name('grupos18283.index');
+    Route::get('/grupos18283.create', [Grupo18283Controller::class, 'create'])->name('grupos18283.create');
+    Route::post('/grupos18283.store', [Grupo18283Controller::class, 'store'])->name('grupos18283.store');
+    Route::get('/grupos18283.show/{grupo18283}', [Grupo18283Controller::class, 'show'])->name('grupos18283.show');
+    Route::get('/grupos18283.edit/{grupo18283}', [Grupo18283Controller::class, 'edit'])->name('grupos18283.edit');
+    Route::put('/grupos18283.update/{grupo18283}', [Grupo18283Controller::class, 'update'])->name('grupos18283.update');
+    Route::get('/grupos18283/eliminar/{grupo18283}', [Grupo18283Controller::class, 'eliminar'])->name('grupos18283.eliminar');
+    Route::delete('/grupos18283/{grupo18283}', [Grupo18283Controller::class, 'destroy'])->name('grupos18283.destroy');
+});
+
+Route::resource('gruposhorarios18283', GrupoHorario18283Controller::class);
+
+Route::middleware('auth')->group(function () {
+    Route::get('/gruposhorarios18283.index', [GrupoHorario18283Controller::class, 'index'])->name('gruposhorarios18283.index');
+    Route::get('/gruposhorarios18283.create', [GrupoHorario18283Controller::class, 'create'])->name('gruposhorarios18283.create');
+    Route::post('/gruposhorarios18283.store', [GrupoHorario18283Controller::class, 'store'])->name('gruposhorarios18283.store');
+    Route::get('/gruposhorarios18283.show/{grupoHorario18283}', [GrupoHorario18283Controller::class, 'show'])->name('gruposhorarios18283.show');
+    Route::get('/gruposhorarios18283.edit/{grupoHorario18283}', [GrupoHorario18283Controller::class, 'edit'])->name('gruposhorarios18283.edit');
+    Route::put('/gruposhorarios18283.update/{grupoHorario18283}', [GrupoHorario18283Controller::class, 'update'])->name('gruposhorarios18283.update');
+    Route::get('/gruposhorarios18283/eliminar/{grupoHorario18283}', [GrupoHorario18283Controller::class, 'eliminar'])->name('gruposhorarios18283.eliminar');
+    Route::delete('/gruposhorarios18283/{grupoHorario18283}', [GrupoHorario18283Controller::class, 'destroy'])->name('gruposhorarios18283.destroy');
+});
+
 
 //CATALOGO//
 //rutas de catalogos
@@ -35,7 +62,7 @@ Route::middleware('auth')->group(function () {
     });
 
     
-//**SIN LLAVE FORANEA**
+//*SIN LLAVE FORANEA*
 //PERIODOS
 //RUTA DE PERIODOS + AUTH
 Route::resource('periodos', PeriodoController::class);
@@ -215,7 +242,7 @@ Route::middleware('auth')->group(function () {
 });
 
 
-//**2 LLAVES FORANEAS  PERSONAL ID Y PLAZA ID*/
+//*2 LLAVES FORANEAS  PERSONAL ID Y PLAZA ID/
 //PERSONALPLAZAS
 Route::resource('personalPlazas', PersonalPlazaController::class);
 
@@ -231,7 +258,7 @@ Route::middleware('auth')->group(function () {
 });
 
 
-
+ 
 
 
 //rutas de materiasAbiertas
@@ -253,7 +280,8 @@ Route::middleware('auth')->group(function () {
     // Ruta para mostrar el índice del grupo de horarios
     Route::get('/aperturagrupo.index', [GrupoHorarioController::class, 'index'])->name('aperturagrupo.index');
 
-    // Rutas para las acciones CRUD de grupoHorario
+    Route::get('/aperturagrupo.edit/{grupo}', [GrupoHorarioController::class, 'edit'])->name('aperturagrupo.edit');    // Rutas para las acciones CRUD de grupoHorario
+    
     Route::resource('aperturagrupo', GrupoHorarioController::class);
     
     // Ruta alternativa para mostrar grupoHorarios
@@ -286,14 +314,7 @@ use App\Http\Controllers\ProyectoPersonaleController;
 
 
 
-//rutas de hoararios
-Route::get('/catalogos.horarios.index', [HorarioController::class, 'index'])->name('catalogos.horarios.index');
 
-Route::get('/catalogos.horarios.submenuhorarios', [HorarioController::class, 'index'])->name('catalogos.horarios.submenuhorarios');
-
-Route::get('/catalogos.horarios.submenuhorarios', function () {
-    return view('catalogo.horarios.index'); 
-});
 
 
 Route::get('/horarios.index', function () {
@@ -302,12 +323,12 @@ Route::get('/horarios.index', function () {
 
 Route::get('/horarios.submenuhorarios', function () {
     return view('horarios.submenuhorarios');
-})->middleware("auth")->name("horarios.submenuhorarios");
+})->middleware("auth")->name("horarios.submenuhorarios"); 
 
 
 //rutas de Proyectos personales
 
-Route::get('/proyectoPersonales', [ProyectoPersonaleController::class, 'index'])->name('proyectosPersonales.index');
+//Route::get('/proyectoPersonales', [ProyectoPersonaleController::class, 'index'])->name('proyectosPersonales.index');
 
 
 

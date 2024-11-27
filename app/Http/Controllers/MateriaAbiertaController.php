@@ -24,7 +24,9 @@ class MateriaAbiertaController extends Controller
             $this->periodo_id = request()->idperiodo;
             session(['periodo_id' => request()->idperiodo]);
         } else {
-            $this->periodo_id = (session()->exists('periodo_id') ? session('periodo_id') : "-1");
+            $this->periodo_id = (session()->exists('periodo_id') ?
+             session('periodo_id')
+              : "-1");
         }
 
         //verifica si se seleccionó alguna carrera en el select y se trae el id

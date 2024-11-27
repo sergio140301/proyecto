@@ -11,6 +11,10 @@ class Periodo extends Model
     use HasFactory;
     protected $table = 'periodos'; 
 
+    public function tutorias()
+    {
+        return $this->hasMany(Tutoria::class, 'periodo_id');
+    }
     protected $fillable = [
         'idPeriodo',
         'periodo',

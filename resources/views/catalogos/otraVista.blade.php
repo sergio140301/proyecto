@@ -25,6 +25,11 @@
                     <a href="{{ route('materiasabiertas') }}">
                         <h1>ABRIR MATERIAS</h1>
                     </a><br>
+{{-- 
+                    <a href="{{ route('tutorias') }}">
+                        <h1>ASIGNAR TUTORES</h1>
+                    </a><br> --}}
+                    
 
                        <p> Nuestra visión es que los momentos de nuestros alumnos <strong>sean</strong> <br>
                            <strong>inolvidables</strong> y que nuestras clases cuenten tengan esa calidad <br>

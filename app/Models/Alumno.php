@@ -18,6 +18,11 @@ class Alumno extends Model
      return $this->belongsTo(Carrera::class);
  }
 
+ public function tutorias()
+ {
+     return $this->hasMany(Tutoria::class, 'alumno_id');
+ }
+
  protected $fillable = [
     'noctrl',
     'nombre',

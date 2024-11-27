@@ -10,7 +10,7 @@ class HorarioMaestro extends Model
     /** @use HasFactory<\Database\Factories\HorarioMaestroFactory> */
     use HasFactory;
 
-    protected $fillable = ['fecha', 'observaciones', 'personal_id', 'periodo_id'] ;
+    protected $fillable = ['fecha', 'personal_id', 'periodo_id'] ;
 
     public function personal()
     {

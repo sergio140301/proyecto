@@ -5,6 +5,24 @@
     <div class="col-6">
         <h1 class="fw-bold">Selecciona uno</h1>
         <ol class="list-group list-group-numbered">
+
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold">Grupo18283</div>
+                    <a href="{{ route('grupos18283.index')}}"><button class="badge text-bg-primary rounded-pill">Ver grupo18283</button></a>
+                </div>
+                <span class="badge text-bg-primary rounded-pill">2000</span>
+            </li>
+
+
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold">Grupos Horarios</div>
+                    <a href="{{ route('gruposhorarios18283.index')}}"><button class="badge text-bg-primary rounded-pill">Ver Grupos Horarios</button></a>
+                </div>
+                <span class="badge text-bg-primary rounded-pill">10</span>
+            </li>
+
             <li class="list-group-item d-flex justify-content-between align-items-start">
                 <div class="ms-2 me-auto">
                     <div class="fw-bold">Periodos</div>
