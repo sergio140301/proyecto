@@ -19,13 +19,12 @@ return new class extends Migration
             $table->timestamps(); // Campos created_at y updated_at como timestamps
         });
 
-            // Insertar valores fijos
-            DB::table('horario_alumnos')->insert([
-                [ 'alumno_id' => 1, 'grupo_id'=> 1],
-                ['alumno_id' => 1, 'grupo_id'=> 2,],
-                [ 'alumno_id' => 1, 'grupo_id'=> 3,],
- 
-            ]);
+        DB::table('horario_alumnos')->insert([
+            ['alumno_id' => 1, 'grupo_id' => 1, 'created_at' => now(), 'updated_at' => now()],
+            ['alumno_id' => 1, 'grupo_id' => 2, 'created_at' => now(), 'updated_at' => now()],
+            ['alumno_id' => 1, 'grupo_id' => 3, 'created_at' => now(), 'updated_at' => now()],
+        ]);
+        
     }
 
     /**
