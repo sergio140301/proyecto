@@ -21,9 +21,9 @@ return new class extends Migration
 
             // Insertar valores fijos
             DB::table('horario_alumnos')->insert([
-                ['id' => 1, 'alumno_id' => 1, 'grupo_id'=> 10, 'created_at' => '2024-12-03 05:12:44', 'updated_at' => '2024-12-03 05:12:44'],
-                ['id' => 2, 'alumno_id' => 1, 'grupo_id'=> 11, 'created_at' => '2024-12-03 05:16:07', 'updated_at' => '2024-12-03 05:16:07'],
-                ['id' => 3, 'alumno_id' => 1, 'grupo_id'=> 12, 'created_at' => '2024-12-03 05:16:07', 'updated_at' => '2024-12-03 05:16:07'],
+                ['id' => 1, 'alumno_id' => 1, 'grupo_id'=> 1, 'created_at' => '2024-12-03 05:12:44', 'updated_at' => '2024-12-03 05:12:44'],
+                ['id' => 2, 'alumno_id' => 1, 'grupo_id'=> 2, 'created_at' => '2024-12-03 05:16:07', 'updated_at' => '2024-12-03 05:16:07'],
+                ['id' => 3, 'alumno_id' => 1, 'grupo_id'=> 3, 'created_at' => '2024-12-03 05:16:07', 'updated_at' => '2024-12-03 05:16:07'],
  
             ]);
     }
