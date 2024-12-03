@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class periodoTutoria extends Model
+class PeriodoTutoria extends Model
 {
     /** @use HasFactory<\Database\Factories\PeriodoTutoriaFactory> */
     use HasFactory;
