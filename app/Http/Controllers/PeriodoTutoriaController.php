@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Periodo;
-use App\Models\PeriodoTutoria;
+use App\Models\periodoTutoria;
 use Illuminate\Http\Request;
 
 class PeriodoTutoriaController extends Controller
@@ -22,7 +22,7 @@ class PeriodoTutoriaController extends Controller
         }
 
 
-        $this->pt = PeriodoTutoria::where('periodo_id', $this->periodo_id)->get();
+        $this->pt = periodoTutoria::where('periodo_id', $this->periodo_id)->get();
     }
 
     public function index()
@@ -61,13 +61,13 @@ class PeriodoTutoriaController extends Controller
 
                 if ($fecha_ini && $fecha_fin) {
 
-                    $existe = PeriodoTutoria::where('periodo_id', $this->periodo_id)
+                    $existe = periodoTutoria::where('periodo_id', $this->periodo_id)
                         ->where('fecha_ini', $fecha_ini)
                         ->where('fecha_fin', $fecha_fin)
                         ->first();
 
                     if (is_null($existe)) {
-                        PeriodoTutoria::create([
+                        periodoTutoria::create([
                             'periodo_id' => $this->periodo_id,
                             'fecha_ini' => $fecha_ini,
                             'fecha_fin' => $fecha_fin,
@@ -82,7 +82,7 @@ class PeriodoTutoriaController extends Controller
                 $fecha_ini = $fechas[0]; 
                 $fecha_fin = $fechas[1];
 
-                PeriodoTutoria::where('periodo_id', $this->periodo_id) 
+                periodoTutoria::where('periodo_id', $this->periodo_id) 
                 ->where('fecha_ini', $fecha_ini) 
                 ->where('fecha_fin', $fecha_fin) 
                 ->delete();
