@@ -30,7 +30,7 @@ class FormAlumnoController extends Controller
                     END AS semestre')
             )
             ->join('carreras as c', 'a.carrera_id', '=', 'c.id')
-            ->where('a.id', 22) /* se supone debe traerse el id del alumno loggeado (session) */
+            ->where('a.id', 1) /* se supone debe traerse el id del alumno loggeado (session) */
             ->first();
 
         $materias = DB::table('materias as m')
