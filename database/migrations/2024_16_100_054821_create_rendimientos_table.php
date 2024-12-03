@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('rendimientos', function (Blueprint $table) {
             $table->id();
+            $table->integer('temasEv'); // Campo de tipo int
+            $table->char('resultado', 1); // Campo de tipo char(1)
+            $table->boolean('asesoria')->default(0); // Campo booleano con valor por defecto 0
+            $table->text('problematica')->nullable(); // Campo nullable
+            $table->text('observaciones')->nullable(); // Campo que puede ser nulo
+            $table->foreignId('form_alumno_id')->constrained(); // Relación con tabla FormAlumno
             $table->timestamps();
         });
     }

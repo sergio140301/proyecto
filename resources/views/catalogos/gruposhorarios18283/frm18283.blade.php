@@ -33,20 +33,28 @@
 
                     <div class="mb-3">
                         <label for="dia" class="form-label">Dia</label>
-                        <input type="text" name="dia" class="form-control" id="dia"
-                            value="{{ old('dia', $grupoHorario18283->dia ?? '') }}"
-                            {{ $accion == 'ver' ? 'disabled' : '' }}>
-                        @error('dia')
-                        <ul class="list-unstyled text-danger">
-                            <li>{{ $message }}</li>
-                        </ul>
-                        @enderror
+                        <select name="dia" id="dia" class="form-control" {{$desabilitado}}>
+                            <option value="" disabled selected>Seleccione un dia</option>
+                            @foreach (['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes'] as $dia)
+                            <option value="{{ $dia }}"
+                                {{ old('dia', $grupoHorario18283->dia ?? '') == $dia ? 'selected' : '' }}>
+                                {{ $dia }}
+                            </option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="hora" class="form-label">Hora</label>
-                        <input type="text" name="hora" class="form-control" id="hora"
-                            value="{{ old('hora', $grupoHorario18283->hora ?? '') }}" {{$desabilitado}}>
+                        <select name="hora" id="hora" class="form-control" {{$desabilitado}}>
+                            <option value="" disabled selected>Seleccione una hora</option>
+                            @foreach ($horas as $horario)
+                            <option value="{{ $horario->hora_ini . '-' . $horario->hora_fin }}"
+                                {{ old('hora', $grupoHorario18283->hora ?? '') == $horario->hora_ini . '-' . $horario->hora_fin ? 'selected' : '' }}>
+                                {{ $horario->hora_ini . ' - ' . $horario->hora_fin }}
+                            </option>
+                            @endforeach
+                        </select>
                         @error('hora')
                         <ul class="list-unstyled text-danger">
                             <p>Error en la descripcion: {{ $message }}</p>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Grupo18283;
 use App\Models\GrupoHorario18283;
+use App\Models\Hora;
 use App\Models\Lugar;
 use Illuminate\Http\Request;
 
@@ -20,8 +21,9 @@ class GrupoHorario18283Controller extends Controller
             'grupo18283_id' => 'required|exists:grupo18283s,id',
             'lugar_id' => 'required|exists:lugars,id',
         ];
-    }
 
+    }
+ 
     public function index()
     {
         $txtBuscar = request('txtBuscar', '');
@@ -38,7 +40,7 @@ class GrupoHorario18283Controller extends Controller
 
         return view('catalogos.gruposhorarios18283.index18283', compact('grupohorario18283s', 'txtBuscar', 'grupo18283', 'lugar'));
     }
-
+ 
 
     public function create()
     {
@@ -47,12 +49,13 @@ class GrupoHorario18283Controller extends Controller
 
         $grupo18283s = Grupo18283::all();
         $lugars = Lugar::all();
+        $horas = Hora::all();
 
         $accion = "crear";
         $txtbtn = "guardar";
         $desabilitado = "";
 
-        return view('catalogos.gruposhorarios18283.frm18283', compact('grupohorario18283s', "grupohorario18283", "grupo18283s", "lugars", 'accion', 'txtbtn', 'desabilitado'));
+        return view('catalogos.gruposhorarios18283.frm18283', compact('grupohorario18283s', "grupohorario18283", "grupo18283s", "lugars",'horas', 'accion', 'txtbtn', 'desabilitado'));
     }
 
 
@@ -71,12 +74,13 @@ class GrupoHorario18283Controller extends Controller
 
         $grupo18283s = Grupo18283::all();
         $lugars = Lugar::all();
+        $horas = Hora::all();
 
         $accion = "ver";
         $txtbtn = "ver";
         $desabilitado = "disabled";
 
-        return view('catalogos.gruposhorarios18283.frm18283', compact('grupohorario18283s', 'grupoHorario18283','grupo18283s','lugars', 'accion', 'txtbtn', 'desabilitado'));
+        return view('catalogos.gruposhorarios18283.frm18283', compact('grupohorario18283s', 'grupoHorario18283','grupo18283s','lugars','horas', 'accion', 'txtbtn', 'desabilitado'));
     }
 
 
@@ -86,12 +90,13 @@ class GrupoHorario18283Controller extends Controller
 
         $grupo18283s = Grupo18283::all();
         $lugars = Lugar::all();
+        $horas = Hora::all();
 
         $accion = "actualizar";
         $txtbtn = "Actualizar Datos";
         $desabilitado = "";
 
-        return view('catalogos.gruposhorarios18283.frm18283', compact('grupohorario18283s', 'grupoHorario18283', 'grupo18283s', 'lugars', 'accion', 'txtbtn', 'desabilitado'));
+        return view('catalogos.gruposhorarios18283.frm18283', compact('grupohorario18283s', 'grupoHorario18283', 'grupo18283s', 'lugars','horas', 'accion', 'txtbtn', 'desabilitado'));
 
     }
 

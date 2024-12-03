@@ -13,6 +13,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CatalogoController;
 use App\Http\Controllers\ReticulaController;
 use App\Http\Controllers\EdificioController;
+use App\Http\Controllers\FormAlumnoController;
 use App\Http\Controllers\Grupo18283Controller;
 use App\Http\Controllers\GrupoHorario18283Controller;
 use App\Http\Controllers\LugarController;
@@ -20,20 +21,72 @@ use App\Http\Controllers\HoraController;
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\PersonalPlazaController;
 use App\Http\Controllers\GrupoHorarioController;
+use App\Http\Controllers\PeriodoTutoriaController;
+use App\Http\Controllers\RendimientoController;
+use App\Http\Controllers\TutoriaController;
+
+//rutas del pryecto tutorias
+
+//rutas de tutorias
+Route::middleware('auth')->group(function () {
+    Route::get('/tutorias', action: [TutoriaController::class, 'index'])->name('tutorias');
+
+    Route::get('/tutorias.index', [TutoriaController::class, 'index'])->name('tutorias.index');
+    Route::get('/tutorias.create', [TutoriaController::class, 'create'])->name('tutorias.create');
+    Route::post('/tutorias.store', [TutoriaController::class, 'store'])->name('tutorias.store');
+    Route::get('/tutorias.show/{tutoria}', [TutoriaController::class, 'show'])->name('tutorias.show');
+    Route::get('/tutorias.edit/{tutoria}', [TutoriaController::class, 'edit'])->name('tutorias.edit');
+    Route::post('/tutorias.update/{tutoria}', [TutoriaController::class, 'update'])->name('tutorias.update');
+    Route::get('/tutorias/eliminar/{tutoria}', [TutoriaController::class, 'eliminar'])->name('tutorias.eliminar');
+    Route::delete('/tutorias/{tutoria}', [TutoriaController::class, 'destroy'])->name('tutorias.destroy');
+});
+ 
+//ruta para formAlumnos
+Route::middleware('auth')->group(function () {
+    Route::get('/formalumnos.index', [FormAlumnoController::class, 'index'])->name('formalumnos.index');
+
+    Route::resource('formalumnos', FormAlumnoController::class);
+    
+    Route::get('/formalumnos', [FormAlumnoController::class, 'index'])->name('formalumnos');
+
+});
+
+
+//ruta para periodosTutorias
+Route::middleware('auth')->group(function () {
+    Route::get('/periodotutorias.index', [PeriodoTutoriaController::class, 'index'])->name('periodotutorias.index');
+
+    Route::resource('periodotutorias', PeriodoTutoriaController::class);
+    
+    Route::get('/periodotutorias', [PeriodoTutoriaController::class, 'index'])->name('periodotutorias');
+
+});
+
+//rendimientos
+Route::get('/rendimientos', [RendimientoController::class, 'index'])->name('rendimientos');
+
+
+
+
 
 //EXAMEN TABLA GRUPOS
-Route::resource('grupos18283', Grupo18283Controller::class);
 
 Route::middleware('auth')->group(function () {
+    Route::resource('grupos18283', Grupo18283Controller::class);
     Route::get('/grupos18283.index', [Grupo18283Controller::class, 'index'])->name('grupos18283.index');
     Route::get('/grupos18283.create', [Grupo18283Controller::class, 'create'])->name('grupos18283.create');
     Route::post('/grupos18283.store', [Grupo18283Controller::class, 'store'])->name('grupos18283.store');
     Route::get('/grupos18283.show/{grupo18283}', [Grupo18283Controller::class, 'show'])->name('grupos18283.show');
     Route::get('/grupos18283.edit/{grupo18283}', [Grupo18283Controller::class, 'edit'])->name('grupos18283.edit');
     Route::put('/grupos18283.update/{grupo18283}', [Grupo18283Controller::class, 'update'])->name('grupos18283.update');
+
+    Route::post('/grupos18283/{grupoId}/horario/store', [Grupo18283Controller::class, 'storeHorario'])->name('grupos18283.storeHorario');
+    Route::delete('/grupos18283/{grupoId}/horario/{dia}/{hora}', [Grupo18283Controller::class, 'destroyHorario'])->name('grupos18283.destroyHorario');
+
     Route::get('/grupos18283/eliminar/{grupo18283}', [Grupo18283Controller::class, 'eliminar'])->name('grupos18283.eliminar');
     Route::delete('/grupos18283/{grupo18283}', [Grupo18283Controller::class, 'destroy'])->name('grupos18283.destroy');
 });
+
 
 Route::resource('gruposhorarios18283', GrupoHorario18283Controller::class);
 
@@ -253,6 +306,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/personalplazas.show/{personalplaza}', [PersonalPlazaController::class, 'show'])->name('personalplazas.show');
     Route::get('/personalplazas.edit/{personalplaza}', [PersonalPlazaController::class, 'edit'])->name('personalplazas.edit');
     Route::post('/personalplazas.update/{personalplaza}', [PersonalPlazaController::class, 'update'])->name('personalplazas.update');
+
     Route::get('/personalplazas/eliminar/{personalplaza}', [PersonalPlazaController::class, 'eliminar'])->name('personalplazas.eliminar');
     Route::delete('/personalplazas/{personalplaza}', [PersonalPlazaController::class, 'destroy'])->name('personalplazas.destroy');
 });

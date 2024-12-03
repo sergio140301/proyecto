@@ -25,6 +25,7 @@ class MateriaController extends Controller
         ];
     }
 
+    
     public function index()
     {
         $txtBuscar = request('txtBuscar', ''); // Inicializa con un valor por defecto

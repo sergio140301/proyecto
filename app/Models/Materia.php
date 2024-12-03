@@ -11,7 +11,17 @@ class Materia extends Model
     /** @use HasFactory<\Database\Factories\MateriaFactory> */
     use HasFactory;
 
+// Método para obtener materias abiertas
+public static function obtenerMateriasAbiertas()
+{
+    return self::where('abierta', true)->get();
+}
 
+// Método para obtener materias por periodo
+public static function obtenerMateriasPorPeriodo($periodo)
+{
+    return self::where('periodo', $periodo)->get();
+}
 
     public function Reticula()
     {

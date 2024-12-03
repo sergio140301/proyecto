@@ -34,41 +34,54 @@
 
     <div class="text-center mt-3">
         <a href="{{ route('grupos18283.create') }}">
-            <img src="{{ asset('img/icono-nuevo.png') }}" width="50px">
+            <img src="{{ asset('img/icono-nuevo.png') }}" width="50px" alt="Crear nuevo grupo">
         </a>
-        <table class="table table-primary mt-3">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Grupo</th>
-                    <th scope="col">Descripción</th>
-                    <th scope="col">Máx. Alumnos</th>
-                    <th scope="col">Periodo</th>
-                    <th scope="col">Materia</th>
-                    <th scope="col">Docente</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($grupo18283s as $grupo)
-                    <tr>
-                        <td scope="row">{{ $grupo->id }}</td>
-                        <td>{{ $grupo->grupo }}</td>
-                        <td>{{ $grupo->descripcion }}</td>
-                        <td>{{ $grupo->maxAlumnos }}</td>
-                        <td>{{ $grupo->periodo->periodo ?? 'Sin Periodo'}}</td>
-                        <td>{{ $grupo->materia->nombreMateria ?? 'Sin Materia'}}</td>
-                        <td>{{ $grupo->personal->nombres }} {{ $grupo->personal->apellidop }} {{ $grupo->personal->apellidom }}</td>
+    </div>
 
-                        <td><a href="{{ route('grupos18283.show', $grupo->id) }}"><img src="{{ asset('img/icono-ver.png') }}" width="50px"></a></td>
-                        <td><a href="{{ route('grupos18283.eliminar', $grupo->id) }}"><img src="{{ asset('img/icono-delete.png') }}" width="50px"></a></td>
-                        <td><a href="{{ route('grupos18283.edit', $grupo->id) }}"><img src="{{ asset('img/icono-editar.png') }}" width="50px"></a></td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+    <table class="table table-primary mt-3">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Grupo</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Máx. Alumnos</th>
+                <th scope="col">Periodo</th>
+                <th scope="col">Materia</th>
+                <th scope="col">Docente</th>
+                <th scope="col" colspan="3" class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($grupo18283s as $grupo)
+                <tr>
+                    <td scope="row">{{ $grupo->id }}</td>
+                    <td>{{ $grupo->grupo }}</td>
+                    <td>{{ $grupo->descripcion }}</td>
+                    <td>{{ $grupo->maxAlumnos }}</td>
+                    <td>{{ $grupo->periodo->periodo ?? 'Sin Periodo' }}</td>
+                    <td>{{ $grupo->materia->nombreMateria ?? 'Sin Materia' }}</td>
+                    <td>{{ $grupo->personal->nombres ?? 'SIN NOMBRE' }} {{ $grupo->personal->apellidop ?? 'SIN APELLIDO' }} {{ $grupo->personal->apellidom ?? 'SIN APELLIDO' }}</td>
+                    <td class="text-center">
+                        <a href="{{ route('grupos18283.show', $grupo->id) }}">
+                            <img src="{{ asset('img/icono-ver.png') }}" width="50px" alt="Ver grupo">
+                        </a>
+                    </td>
+                    <td class="text-center">
+                        <a href="{{ route('grupos18283.eliminar', $grupo->id) }}">
+                            <img src="{{ asset('img/icono-delete.png') }}" width="50px" alt="Eliminar grupo">
+                        </a>
+                    </td>
+                    <td class="text-center">
+                        <a href="{{ route('grupos18283.edit', $grupo->id) }}">
+                            <img src="{{ asset('img/icono-editar.png') }}" width="50px" alt="Editar grupo">
+                        </a>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+    
+    <div class="mt-3">
         {{ $grupo18283s->links() }}
     </div>
 </div>
