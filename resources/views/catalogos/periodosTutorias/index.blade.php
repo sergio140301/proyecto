@@ -55,99 +55,126 @@
         </div>
         @endif
 
-
-
         <h1>¡Bienvenido a Asignación de Tutorías!</h1>
 
-        <form action="{{ route('periodotutorias.index') }}" method="get">
-            <div class="mb-3">
-                <label for="idperiodo" class="form-label">Indica en qué periodo serán las tutorías</label>
-                <select class="form-select" id="idperiodo" name="idperiodo" onchange="this.form.submit()">
-                    <option value="-1" disabled selected>Seleccione periodo</option>
-
-                    @foreach ($periodos as $periodo)
-                    <option value="{{ $periodo->id }}" @if($periodo->id == session('periodo_id')) selected @endif>
-                        {{ $periodo->periodo }}
-                    </option>
-                    @endforeach
-                </select>
-            </div>
-        </form>
-
-        <form action="{{ route('periodotutorias.store') }}" method="POST">
-
+        @if ($existenSeguimientos <= 0)
+            <form method="POST" action="{{ route('periodotutorias.store') }}">
             @csrf
-            <input type="hidden" name="eliminar" id="eliminar" value="NOELIMINAR">
 
-            @php
-            // Obtener el periodo seleccionado de la sesión
-            $periodoSeleccionado = $periodos->firstWhere('id', session('periodo_id'));
-            $anioSeleccionado = $periodoSeleccionado ? substr($periodoSeleccionado->periodo, -2) : date('y');
-            $anioCompleto = '20' . $anioSeleccionado;
-
-            // Fechas predeterminadas basadas en el periodo seleccionado
-            $fechasPredeterminadas = [
-            ['titulo' => '1er seguimiento', 'inicio' => "{$anioCompleto}-09-16", 'final' => "{$anioCompleto}-09-20"],
-            ['titulo' => '2do seguimiento', 'inicio' => "{$anioCompleto}-10-14", 'final' => "{$anioCompleto}-10-18"],
-            ['titulo' => '3er seguimiento', 'inicio' => "{$anioCompleto}-11-11", 'final' => "{$anioCompleto}-11-15"],
-            ['titulo' => '4to seguimiento', 'inicio' => "{$anioCompleto}-12-02", 'final' => "{$anioCompleto}-12-13"],
-            ];
-            @endphp
-
-
-
-            <br>
             <div class="row">
-                <label for="" class="form-label">Indica cuántos seguimientos</label>
-
-                @foreach ($fechasPredeterminadas as $index => $fechas)
                 <div class="col">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="form-check">
-                                <!-- Checkbox que enviará el título como valor si está seleccionado -->
-                                <input onchange="enviar(this)" type="checkbox" name="checkbox_{{ $index }}" value="{{ $fechas['titulo'] }}" class="form-check-input" id="checkbox_{{ $index }}"
-                                    @if($pt->firstWhere('fecha_ini', $fechas['inicio'])) checked @endif>
-                                <label class="form-check-label" for="checkbox_{{ $index }}">{{ $fechas['titulo'] }}</label>
+                    <label for="seguimientos" class="form-label">Seguimientos:</label>
+                    <select class="form-select" id="seguimientos" onchange="generarCards()">
+                        <option value="-1" disabled selected>Cant. de seguimientos a abrir</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+
+                <div class="col">
+                    <label for="periodo">Periodo Actual:</label>
+                    <input type="text" class="form-control" id="periodo" value="{{ $periodos->periodo }}" readonly>
+                    <input type="hidden" class="form-control" name="idperiodo" value="{{ $periodos->id }}" readonly>
+                    <input type="hidden" id="cantidad_seguimientos" name="cantidad_seguimientos" value="0"> <!-- Campo oculto para la cantidad -->
+                </div>
+            </div>
+
+            <div id="cards-container" class="row">
+                <!-- Aquí se generarán las tarjetas si no hay seguimientos abiertos -->
+            </div>
+            <button type="submit" class="btn btn-success mt-3">Abrir Seguimientos</button>
+            </form>
+            @endif
+
+            <div class="row">
+                @if ($existenSeguimientos > 0)
+                <div id="cards-container" class="row g-3">
+                    <label for="periodo">Periodo Actual:</label>
+                    <input type="text" class="form-control" id="periodo" value="{{ $periodos->periodo }}" readonly>
+                    <input type="hidden" class="form-control" name="idperiodo" value="{{ $periodos->id }}" readonly>
+
+
+
+                    @foreach ($seguimientosAbiertos as $index => $seguimiento)
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <label>Seguimiento {{ $index + 1 }}</label>
                             </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <input class="form-control" type="text" name="fecha_ini_{{ $index }}" id="fecha_ini_{{ $index }}" value="{{ old('fecha_ini_' . $index, $fechas['inicio']) }}" readonly>
-                                </div>
-                                <div class="col">
-                                    <input class="form-control" type="text" name="fecha_fin_{{ $index }}" id="fecha_fin_{{ $index }}" value="{{ old('fecha_fin_' . $index, $fechas['final']) }}" readonly>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <input class="form-control" type="date" value="{{ $seguimiento->fecha_ini }}" readonly>
+                                    </div>
+                                    <div class="col">
+                                        <input class="form-control" type="date" value="{{ $seguimiento->fecha_fin }}" readonly>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    @endforeach
                 </div>
-                @endforeach
 
+                @endif
             </div>
 
-            <br>
-        </form>
-        <br><br><br>
-        <a href="{{ route('tutorias') }}" class="btn btn-secondary">
-            Asignacion de maestro para tutorias
-        </a><br>
 
+
+            <br><br><br>
+            <a href="{{ route('tutorias') }}" class="btn btn-secondary">
+                Asignación de maestro para tutorías
+            </a><br>
     </div>
 
     <script>
-        function enviar(chbox) {
-            if (!chbox.checked) {
-                var index = chbox.id.split('_')[1];
-                var fecha_ini = document.getElementById('fecha_ini_' + index).value;
-                var fecha_fin = document.getElementById('fecha_fin_' + index).value;
-                document.getElementById('eliminar').value = fecha_ini + '|' + fecha_fin;
+        function generarCards() {
+            const select = document.getElementById('seguimientos');
+            const container = document.getElementById('cards-container');
+            const cantidad = parseInt(select.value);
+            const cantidadField = document.getElementById('cantidad_seguimientos'); // Campo oculto
+
+            // Limpiar el contenedor
+            container.innerHTML = '';
+            cantidadField.value = cantidad; // Actualizar el campo oculto
+
+            // Crear fila inicial
+            let row = document.createElement('div');
+            row.className = 'row g-3'; // g-3 para espaciado entre columnas
+
+            // Generar tarjetas
+            for (let i = 1; i <= cantidad; i++) {
+                const col = document.createElement('div');
+                col.className = 'col-md-6 col-lg-4'; // Ajustar el tamaño de columna según el diseño
+                col.innerHTML =
+                    `<div class="card">
+                        <div class="card-header">
+                            <label>Seguimiento ${i}</label>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <input class="form-control" type="date" name="fecha_ini_${i}" value="">
+                                </div>
+                                <div class="col">
+                                    <input class="form-control" type="date" name="fecha_fin_${i}" value="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+                row.appendChild(col);
+
+                // Crear una nueva fila si se llena
+                if (i % 3 === 0 || i === cantidad) {
+                    container.appendChild(row); // Agregar la fila al contenedor
+                    row = document.createElement('div'); // Crear una nueva fila
+                    row.className = 'row g-3';
+                }
             }
-            chbox.form.submit();
         }
     </script>
-
 
 </body>
 

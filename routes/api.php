@@ -22,4 +22,6 @@ Route::get('/personal', [JsonController::class, 'personal']);
 Route::get('/lugar', [JsonController::class, 'lugar']);
 Route::get('/materiasabiertas/{semestre}', [JsonController::class, 'materiasabiertas']);
 
+Route::post('/alumnos', [JsonController::class, 'insertarAlumno']);
+
 Route::get('/semestres-con-materias-abiertas', [JsonController::class, 'semestresConMateriasAbiertas']);

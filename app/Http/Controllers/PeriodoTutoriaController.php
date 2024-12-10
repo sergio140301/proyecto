@@ -3,99 +3,69 @@
 namespace App\Http\Controllers;
 
 use App\Models\Periodo;
-use App\Models\periodoTutoria;
+use App\Models\PeriodoTutoria;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PeriodoTutoriaController extends Controller
 {
-    public $periodo_id;
-
-    public $pt;
- 
-    function __construct()
-    {
-        if (request()->idperiodo) {
-            $this->periodo_id = request()->idperiodo;
-            session(['periodo_id' => request()->idperiodo]);
-        } else {
-            $this->periodo_id = (session()->exists('periodo_id') ? session('periodo_id') : "-1");
-        }
-
-
-        $this->pt = periodoTutoria::where('periodo_id', $this->periodo_id)->get();
-    }
 
     public function index()
     {
-        $periodos = Periodo::get();
+        $periodos = DB::table('periodos')
+            ->select('*') // Selecciona todos los campos de la tabla periodos
+            ->whereRaw("
+                        (CASE
+                            WHEN periodo LIKE 'Ene-Jun%' AND MONTH(CURDATE()) BETWEEN 1 AND 6 THEN 1
+                            WHEN periodo LIKE 'Ago-Dic%' AND MONTH(CURDATE()) BETWEEN 8 AND 12 THEN 1
+                            ELSE 0
+                        END) = 1
+                    ")
+            ->whereRaw("RIGHT(periodo, 2) = RIGHT(YEAR(CURDATE()), 2)")
+            ->first();
 
-        return view(
-            'catalogos.periodosTutorias.index',
-            [
-                'periodos' => $periodos,
-                'pt' => $this->pt
-            ]
-        );
+        $seguimientosAbiertos = DB::table('periodo_tutorias as pt')
+            ->join('periodos as p', 'pt.periodo_id', '=', 'p.id')
+            ->select('pt.fecha_ini', 'pt.fecha_fin')
+            ->where('p.id', $periodos->id)
+            ->get();
+
+        $existenSeguimientos = DB::table('periodo_tutorias as pt')
+            ->join('periodos as p', 'pt.periodo_id', '=', 'p.id')
+            ->where('p.id', 2)
+            ->count();
+
+
+
+        return view('catalogos.periodosTutorias.index', compact('periodos', 'seguimientosAbiertos', 'existenSeguimientos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    public function create() {}
 
     public function store(Request $request)
     {
-        // Iterar sobre todos los posibles índices para procesar solo los seleccionados
-        foreach ($request->all() as $key => $value) {
-            // Verifica si el checkbox correspondiente está seleccionado
-            if (strpos($key, 'checkbox_') === 0) {
-                // Extraer el índice del checkbox (ej. checkbox_0, checkbox_1, ...)
-                $index = substr($key, 9); // Elimina 'checkbox_' del nombre
+        $periodo_id = $request->input('idperiodo');
+        $cantidad_seguimientos = $request->input('cantidad_seguimientos');
 
-                // Verificar si la fecha de inicio y fin también están presentes
-                $fecha_ini = $request->input("fecha_ini_{$index}");
-                $fecha_fin = $request->input("fecha_fin_{$index}");
+        // Recorrer cada seguimiento para insertar en la base de datos
+        for ($i = 1; $i <= $cantidad_seguimientos; $i++) {
+            $fecha_ini = $request->input("fecha_ini_$i");
+            $fecha_fin = $request->input("fecha_fin_$i");
 
-                if ($fecha_ini && $fecha_fin) {
-
-                    $existe = periodoTutoria::where('periodo_id', $this->periodo_id)
-                        ->where('fecha_ini', $fecha_ini)
-                        ->where('fecha_fin', $fecha_fin)
-                        ->first();
-
-                    if (is_null($existe)) {
-                        periodoTutoria::create([
-                            'periodo_id' => $this->periodo_id,
-                            'fecha_ini' => $fecha_ini,
-                            'fecha_fin' => $fecha_fin,
-                        ]);
-                    }
-                }
-           
+            // Solo guardar si ambas fechas están presentes
+            if ($fecha_ini && $fecha_fin) {
+                // Crear un nuevo registro en la tabla PeriodoTutoria
+                PeriodoTutoria::create([
+                    'periodo_id' => $periodo_id,
+                    'fecha_ini' => $fecha_ini,
+                    'fecha_fin' => $fecha_fin,
+                ]);
             }
-
-            if (request()->eliminar and request()->eliminar != "NOELIMINAR") {
-                $fechas = explode('|', $request->eliminar); 
-                $fecha_ini = $fechas[0]; 
-                $fecha_fin = $fechas[1];
-
-                periodoTutoria::where('periodo_id', $this->periodo_id) 
-                ->where('fecha_ini', $fecha_ini) 
-                ->where('fecha_fin', $fecha_fin) 
-                ->delete();
-
-                return redirect()->route('periodotutorias.index');
-            }
-
-            
         }
 
-        return redirect()->route('periodotutorias.index')->with('success', 'Periodo Tutorías guardadas exitosamente');
+        // Redirigir con mensaje de éxito
+        return redirect()->route('periodotutorias')->with('success', 'Seguimientos abiertos correctamente.');
     }
-
 
     /**
      * Display the specified resource.

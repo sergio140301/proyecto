@@ -37,7 +37,34 @@
             </div>
         </div>
 
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    @include('navbar-admin')
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        @include('navbar-coord-tutores')
+                    </div>
+                </div>
       
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            @include('navbar-tutor')
+                        </div>
+                    </div>
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                @include('navbar-alumno')
+                            </div>
+                        </div>
+
             <div class="row">
                 <div class="col">
                     @yield('contenido4000')

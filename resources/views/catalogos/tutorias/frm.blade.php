@@ -32,11 +32,11 @@
 </head>
 
 <body class="container bg-light py-5">
-        @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-        @endif
+    @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
 
     <!-- Oficio Section -->
     <div class="border rounded p-4 shadow-sm bg-white mb-4">
@@ -63,7 +63,7 @@
 
         <div class="row">
             <div class="col">
-                <form action="{{ route('tutorias.index') }}" method="GET">
+                <form action="{{ route('tutorias.create') }}" method="GET">
                     <div class="mb-3">
                         <label for="departamento" class="form-label">Departamento del Tutor:</label>
                         <select id="departamento" name="iddepto" class="form-select" onchange="this.form.submit()">
@@ -78,11 +78,11 @@
                 </form>
             </div>
             <div class="col">
-                <form action="{{ route('tutorias.index') }}" method="GET">
+                <form action="{{ route('tutorias.create') }}" method="GET">
                     <div class="mb-3">
                         <label for="carrera" class="form-label">Carrera de los Alumnos:</label>
                         <select id="carrera" name="idcarrera" class="form-select" onchange="this.form.submit()">
-                        <option value="-1" disabled selected>Seleccione carrera</option>
+                            <option value="-1" disabled selected>Seleccione carrera</option>
                             @foreach ($carreras as $carrera)
                             <option value="{{ $carrera->id }}" @if($carrera->id == session('carrera_id')) selected @endif>{{ $carrera->nombreCarrera }}</option>
                             @endforeach
@@ -115,12 +115,9 @@
                 <h2 class="section-title">Lista de Estudiantes para Tutorías</h2>
 
                 <div class="mb-3">
-                    <label for="periodo" class="form-label">Selecciona Periodo:</label>
-                    <select id="periodo" name="periodo_id" class="form-select">
-                        @foreach ($periodos as $periodo)
-                        <option value="{{ $periodo->id }}">{{ $periodo->periodo }}</option>
-                        @endforeach
-                    </select>
+                    <label for="periodo">Periodo Actual:</label>
+                    <input type="text" class="form-control" id="periodo" value="{{ $periodos->periodo }}" readonly>
+                    <input type="hidden" class="form-control" name="periodo_id" value="{{ $periodos->id}}" readonly>
                 </div>
 
                 <div class="mb-3">
@@ -177,7 +174,7 @@
                 const año = fecha.getFullYear();
 
                 // Establecer el texto
-                fechaActual.textContent = `${dia}/${mes}/${año}`;
+                fechaActual.textContent = ${dia}/${mes}/${año};
             });
         </script>
 
@@ -210,8 +207,8 @@
                 const nuevaFila = document.createElement('tr');
                 nuevaFila.dataset.id = alumnoId; // Asignar el ID como atributo
 
-                nuevaFila.innerHTML = 
-                `
+                nuevaFila.innerHTML =
+                    `
                 <td>${noctrl}</td>
                 <td>${nombre}</td>
                 <td>${apellidop}</td>
@@ -240,10 +237,6 @@
 
 
 </body>
-<br><br><br>
-<a href="{{ route('formalumnos') }}" class="btn btn-secondary">
-    Asignacion de maestro para tutorias
-</a><br>
 
 </html>
 @endsection

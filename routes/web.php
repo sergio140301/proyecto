@@ -27,6 +27,71 @@ use App\Http\Controllers\TutoriaController;
 
 //rutas del pryecto tutorias
 
+
+
+//rutas ojos 
+
+Route::get('/tutorias/{id}/{periodo}', [TutoriaController::class, 'show'])->name('tutorias.show');
+
+
+
+//rutas de TUTORIAS PERO DEL COORDINADOR
+// Redirigir /catalogos.tablatutorias a la acción index de TutoriaController
+Route::get('/catalogos/tablatutorias', [TutoriaController::class, 'index'])
+    ->middleware("auth")
+    ->name("tablatutorias");
+
+// Redirigir /catalogos.reportetutor a la acción index de TutoriaController
+Route::get('/catalogos/reportetutor', [TutoriaController::class, 'index2'])
+    ->middleware("auth")
+    ->name("reportetutor");
+
+
+
+//RUTAS DE TUTORIAS PERO EL DEL TUTOR ASIGNADOR PARA VER SUS ALUMNOS
+
+Route::get('/catalogos.tutores/alumnorendimiento', function () {
+    return view('catalogos.tutores.alumnorendimiento');
+})->middleware("auth")->name("alumnorendimiento");
+
+
+Route::get('/catalogos.tutores/asesorias', [TutoriaController::class, 'index3'])
+    ->middleware("auth")
+    ->name("asesorias");
+
+
+
+Route::get('/catalogos.tutores/tablatutor', [TutoriaController::class, 'index2'])
+    ->middleware("auth")
+    ->name("tablatutor");
+
+    Route::get('/tutorias/{id}/{periodo}', [TutoriaController::class, 'show'])->name('tutorias.show');
+
+
+Route::get('/catalogos.tutores/asesoriasalumnos', [FormAlumnoController::class, 'index2'])
+    ->middleware("auth")
+    ->name("asesoriasalumnos");
+
+
+Route::get('/catalogos.formAlumnos.tablaalumnos', [FormAlumnoController::class, 'index2'])
+    ->middleware("auth")
+    ->name("tablaalumnos");
+
+
+
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/catalogos.tutorias/listatutorados', function () {
+            return view('catalogos.tutorias.listatutorados'); // Vista para usuarios identificados
+        })->name('listatutorados');
+    });
+    
+
+
+
+
+
+
+
 //rutas de tutorias
 Route::middleware('auth')->group(function () {
     Route::get('/tutorias', action: [TutoriaController::class, 'index'])->name('tutorias');
@@ -34,7 +99,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/tutorias.index', [TutoriaController::class, 'index'])->name('tutorias.index');
     Route::get('/tutorias.create', [TutoriaController::class, 'create'])->name('tutorias.create');
     Route::post('/tutorias.store', [TutoriaController::class, 'store'])->name('tutorias.store');
-    Route::get('/tutorias.show/{tutoria}', [TutoriaController::class, 'show'])->name('tutorias.show');
+    
+    Route::get('/tutorias/{id}/{periodo}', [TutoriaController::class, 'show'])->name('tutorias.show');
+
     Route::get('/tutorias.edit/{tutoria}', [TutoriaController::class, 'edit'])->name('tutorias.edit');
     Route::post('/tutorias.update/{tutoria}', [TutoriaController::class, 'update'])->name('tutorias.update');
     Route::get('/tutorias/eliminar/{tutoria}', [TutoriaController::class, 'eliminar'])->name('tutorias.eliminar');
@@ -64,8 +131,6 @@ Route::middleware('auth')->group(function () {
 
 //rendimientos
 Route::get('/rendimientos', [RendimientoController::class, 'index'])->name('rendimientos');
-
-
 
 
 
