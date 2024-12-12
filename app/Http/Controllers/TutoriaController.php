@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Alumno;
 use App\Models\Carrera;
 use App\Models\Depto;
+use App\Models\Lugar;
 use App\Models\Periodo;
 use App\Models\Personal;
 use App\Models\Tutoria;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PhpOffice\PhpWord\TemplateProcessor;
 
 class TutoriaController extends Controller
 {
@@ -52,63 +54,7 @@ class TutoriaController extends Controller
 
 
 
-        return view('catalogos.tutorias.tablatutorias', compact('tutorias'));
-    }
-
-    public function index2()
-    {
-        $periodos = Periodo::all();
-
-        $tutordealumnos = DB::table('personals')
-            ->select('id', 'nombres', 'apellidop', 'apellidom')
-            ->where('id', 11) // ID del tutor loggeado
-            ->first();
-
-        $alumnostutorados = DB::table('tutorias as t')
-            ->join('alumnos as a', 't.alumno_id', '=', 'a.id')
-            ->join('carreras as c', 'a.carrera_id', '=', 'c.id')
-            ->join('personals as d', 't.personal_id', '=', 'd.id')
-            ->select(
-                't.id',
-                'a.noctrl',
-                'a.nombre',
-                'a.apellidop',
-                'a.apellidom',
-                'c.nombreCarrera',
-                't.semestreAlumno'
-            )
-            ->where('d.id', 11) // ID del tutor loggeado
-            ->where('t.periodo_id', $this->periodo_id)
-            ->get();
-
-
-        return view('catalogos.tutores.tablatutor', compact('periodos', 'tutordealumnos', 'alumnostutorados'));
-    }
-
-    public function index3()
-    {
-        $periodos = Periodo::all();
-
-        $asesorias = DB::table('rendimientos as r')
-            ->join('form_alumnos as fa', 'r.form_alumno_id', '=', 'fa.id')
-            ->join('alumnos as a', 'fa.alumno_id', '=', 'a.id')
-            ->join('tutorias as t', 'a.id', '=', 't.alumno_id')
-            ->join('carreras as c', 'a.carrera_id', '=', 'c.id')
-            ->select(
-                'a.noctrl',
-                'a.nombre',
-                'a.apellidop',
-                'a.apellidom',
-                'c.nombreCarrera',
-                't.semestreAlumno'
-            )
-            ->where('t.personal_id', 1)  // id tutor loggeado
-            ->where('t.periodo_id', $this->periodo_id)
-            ->where('r.asesoria', 1)
-            ->get();
-
-
-        return view('catalogos.tutores.asesorias', compact('periodos', 'asesorias'));
+        return view('catalogos.tutorias.tablatutoriascoord', compact('tutorias'));
     }
 
     public function create()
@@ -118,19 +64,18 @@ class TutoriaController extends Controller
         $personals = Personal::where('depto_id', $this->depto_id)->get();
 
         $periodos = DB::table('periodos')
-            ->select('*') // Selecciona todos los campos de la tabla periodos
-            ->whereRaw("
-                                    (CASE
-                                        WHEN periodo LIKE 'Ene-Jun%' AND MONTH(CURDATE()) BETWEEN 1 AND 6 THEN 1
-                                        WHEN periodo LIKE 'Ago-Dic%' AND MONTH(CURDATE()) BETWEEN 8 AND 12 THEN 1
-                                        ELSE 0
-                                    END) = 1
-                                ")
+            ->select('*')
+            ->whereRaw("(CASE
+                            WHEN periodo LIKE 'Ene-Jun%' AND MONTH(CURDATE()) BETWEEN 1 AND 6 THEN 1
+                            WHEN periodo LIKE 'Ago-Dic%' AND MONTH(CURDATE()) BETWEEN 8 AND 12 THEN 1
+                            ELSE 0
+                        END) = 1")
             ->whereRaw("RIGHT(periodo, 2) = RIGHT(YEAR(CURDATE()), 2)")
             ->first();
 
         $carreras = Carrera::all();
 
+        //esta consulta mostrará en el select solo los alumnos que no tengan un tutor asignado en el periodo actual
         $alumnos = DB::table('alumnos as a')
             ->join('carreras as c', 'a.carrera_id', '=', 'c.id')
             ->select(
@@ -139,16 +84,21 @@ class TutoriaController extends Controller
                 'a.nombre',
                 'a.apellidop',
                 'a.apellidom',
-                DB::raw("
-            CASE 
+                DB::raw("CASE
                 WHEN MONTH(CURDATE()) BETWEEN 1 AND 7 THEN (YEAR(CURDATE()) % 100 - SUBSTRING(a.noctrl, 1, 2)) * 2
                 ELSE (YEAR(CURDATE()) % 100 - SUBSTRING(a.noctrl, 1, 2)) * 2 + 1
-            END AS semestre")
+                END AS semestre")
             )
-            ->where('c.id', $this->carrera_id)
+            ->where('c.id', '=', $this->carrera_id)
+            ->whereNotIn('a.id', function ($query) {
+                $query->select('alumno_id')
+                    ->from('tutorias')
+                    ->where('periodo_id', '=', $this->periodo_id);
+            })
             ->get();
 
-            return view("catalogos.tutorias.frm", compact("departamentos", "personals", "periodos", "carreras", 'alumnos'));
+
+        return view("catalogos.tutorias.frm", compact("departamentos", "personals", "periodos", "carreras", 'alumnos'));
     }
 
     public function store(Request $request)
@@ -170,24 +120,18 @@ class TutoriaController extends Controller
             ]);
         }
 
-        return redirect()->route('tablatutorias')->with('success', 'Alumnos guardados exitosamente');
+        return redirect()->route('tutorias.tablatutoriascoord')->with('success', 'Alumnos guardados exitosamente');
     }
 
 
-    public function show($id, $periodo)
+    public function show($iddocente, $periodo)
     {
         $periodos = DB::table('periodos')
-            ->select('*') // Selecciona todos los campos de la tabla periodos
-            ->whereRaw("
-                                    (CASE
-                                        WHEN periodo LIKE 'Ene-Jun%' AND MONTH(CURDATE()) BETWEEN 1 AND 6 THEN 1
-                                        WHEN periodo LIKE 'Ago-Dic%' AND MONTH(CURDATE()) BETWEEN 8 AND 12 THEN 1
-                                        ELSE 0
-                                    END) = 1
-                                ")
-            ->whereRaw("RIGHT(periodo, 2) = RIGHT(YEAR(CURDATE()), 2)")
+            ->select('id', 'periodo')
+            ->where('periodo', $periodo)
             ->first();
-        
+
+
         $tutorias = DB::table('personals as d')
             ->join('tutorias as t', 'd.id', '=', 't.personal_id')
             ->join('periodos as p', 't.periodo_id', '=', 'p.id')
@@ -204,33 +148,130 @@ class TutoriaController extends Controller
                 'a.apellidom as alumno_apellidom',
                 't.semestreAlumno'
             )
-            ->where('d.id', $id) // Filtro por el id del tutor
-            ->where('p.periodo', $periodo) // Filtro por el id del periodo
+            ->where('d.id', $iddocente) // parametro id personal
+            ->where('p.periodo', $periodo) // parametro periodo
             ->get();
 
-            return view("catalogos.tutorias.vertutorados", compact("periodos","tutorias"));
-
+        return view("catalogos.tutorias.vertutorados", compact("periodos", "tutorias"));
     }
 
-
-    public function show2(){
-        
-    }
-
-    public function edit(Tutoria $tutoria)
+    public function generaReporte($iddocente, $periodo)
     {
-       
+        $infoTutor = DB::table('tutorias as t')
+                    ->join('personals as d', 't.personal_id', '=', 'd.id')
+                    ->join('deptos as de', 'd.depto_id', '=', 'de.id')
+                    ->join('puestos as pu', 'd.puesto_id', '=', 'pu.id')
+                    ->join('periodos as per', 't.periodo_id', '=', 'per.id')
+                    ->select(
+                        DB::raw("DATE_FORMAT(t.created_at, '%d-%m-%Y') AS creacionTutoria"),
+                        'd.nombres',
+                        'd.apellidop',
+                        'd.apellidom',
+                        'pu.tipo',
+                        'de.nombreDepto'
+                    )
+                    ->where('d.id', $iddocente)
+                    ->where('per.periodo', $periodo)
+                    ->orderBy('t.created_at', 'ASC')
+                    ->limit(1)
+                    ->get();
+
+        $totalTutorados = DB::table('personals as d')
+                    ->join('tutorias as t', 'd.id', '=', 't.personal_id')
+                    ->join('periodos as p', 't.periodo_id', '=', 'p.id')
+                    ->join('alumnos as a', 't.alumno_id', '=', 'a.id')
+                    ->where('d.id', $iddocente)
+                    ->where('p.periodo', $periodo)
+                    ->count();
+
+        $totalHombres = DB::table('personals as d')
+                    ->join('tutorias as t', 'd.id', '=', 't.personal_id')
+                    ->join('periodos as p', 't.periodo_id', '=', 'p.id')
+                    ->join('alumnos as a', 't.alumno_id', '=', 'a.id')
+                    ->where('d.id', $iddocente)
+                    ->where('p.periodo', $periodo)
+                    ->where('a.sexo', 'M')
+                    ->count();
+
+        $totalMujeres = DB::table('personals as d')
+                    ->join('tutorias as t', 'd.id', '=', 't.personal_id')
+                    ->join('periodos as p', 't.periodo_id', '=', 'p.id')
+                    ->join('alumnos as a', 't.alumno_id', '=', 'a.id')
+                    ->where('d.id', $iddocente)
+                    ->where('p.periodo', $periodo)
+                    ->where('a.sexo', 'F')
+                    ->count();
+
+        $fechasSeguimientos = DB::table('periodo_tutorias as pt')
+                    ->join('periodos as p', 'pt.periodo_id', '=', 'p.id')
+                    ->select(
+                        DB::raw("CONCAT(DAY(pt.fecha_ini), ' al ', DAY(pt.fecha_fin), ' de ',
+                            CASE MONTH(pt.fecha_ini)
+                                WHEN 1 THEN 'enero'
+                                WHEN 2 THEN 'febrero'
+                                WHEN 3 THEN 'marzo'
+                                WHEN 4 THEN 'abril'
+                                WHEN 5 THEN 'mayo'
+                                WHEN 6 THEN 'junio'
+                                WHEN 7 THEN 'julio'
+                                WHEN 8 THEN 'agosto'
+                                WHEN 9 THEN 'septiembre'
+                                WHEN 10 THEN 'octubre'
+                                WHEN 11 THEN 'noviembre'
+                                WHEN 12 THEN 'diciembre'
+                            END, ' ', YEAR(pt.fecha_ini)) AS rango_fechas"
+                        )
+                    )
+                    ->where('p.periodo', $periodo)
+                    ->get();
+
+        $tutorados = DB::table('personals as d')
+                ->join('tutorias as t', 'd.id', '=', 't.personal_id')
+                ->join('periodos as p', 't.periodo_id', '=', 'p.id')
+                ->join('alumnos as a', 't.alumno_id', '=', 'a.id')
+                ->select('a.noctrl', 'a.nombre', 'a.apellidop', 'a.apellidom')
+                ->where('d.id', $iddocente)
+                ->where('p.periodo', $periodo)
+                ->get();
+
+
+        //plantilla
+        $templateProcessor = new TemplateProcessor(storage_path('app/public/reporteTutores.docx'));
+
+        //marcadores
+        $templateProcessor->setValue('${fechacreaciontutoria}', $infoTutor[0]->creacionTutoria );
+
+        $tutor = $infoTutor[0]->nombres . ' ' . $infoTutor[0]->apellidop . ' ' . $infoTutor[0]->apellidom;
+        $templateProcessor->setValue('${nombretutor}', $tutor );
+        $templateProcessor->setValue('${tipopuesto}', $infoTutor[0]->tipo );
+        $templateProcessor->setValue('${depto}', $infoTutor[0]->nombreDepto );
+
+        $templateProcessor->setValue('${totalalumnos}', $totalTutorados );
+        $templateProcessor->setValue('${numm}', $totalMujeres);
+        $templateProcessor->setValue('${numh}', $totalHombres );
+        $templateProcessor->setValue('${periodo}', $periodo );
+
+        $templateProcessor->setValue('${seg1}', $fechasSeguimientos[0]->rango_fechas );
+        $templateProcessor->setValue('${seg2}', $fechasSeguimientos[1]->rango_fechas );
+        $templateProcessor->setValue('${seg3}', $fechasSeguimientos[2]->rango_fechas );
+        $templateProcessor->setValue('${seg4}', $fechasSeguimientos[3]->rango_fechas );
+
+        $templateProcessor->cloneRow('noctrl', count($tutorados));
+        foreach ($tutorados as $index => $tutorado) {
+            $rowIndex = $index + 1;
+            $templateProcessor->setValue("noctrl#{$rowIndex}", $tutorado->noctrl);
+            $nombreCompleto = $tutorado->nombre . ' ' . $tutorado->apellidop . ' ' . $tutorado->apellidom;
+            $templateProcessor->setValue("nomalumno#{$rowIndex}", $nombreCompleto);
+
+        }
+
+        //guardar
+        $fileName = 'Lista_Tutores_'. $iddocente . ' ' . $periodo .'.docx';
+        $templateProcessor->saveAs(storage_path('app/public/' . $fileName));
+
+        // Descargar el archivo
+        return response()->download(storage_path('app/public/' . $fileName))->deleteFileAfterSend(true);
     }
 
 
-    public function update(Request $request, Tutoria $tutoria)
-    {
-       
-    }
-
-
-    public function destroy(Tutoria $tutoria)
-    {
-        
-    }
 }

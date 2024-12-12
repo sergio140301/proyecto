@@ -18,7 +18,8 @@ return new class extends Migration
             $table->boolean('asesoria')->default(0); // Campo booleano con valor por defecto 0
             $table->text('problematica')->nullable(); // Campo nullable
             $table->text('observaciones')->nullable(); // Campo que puede ser nulo
-            $table->foreignId('form_alumno_id')->constrained(); // Relación con tabla FormAlumno noc 
+            $table->integer('seguimiento'); // Campo de tipo int
+            $table->foreignId('form_alumno_id')->constrained(); // Relación con tabla FormAlumno noc
             $table->timestamps();
         });
     }

@@ -47,14 +47,11 @@ class PeriodoTutoriaController extends Controller
         $periodo_id = $request->input('idperiodo');
         $cantidad_seguimientos = $request->input('cantidad_seguimientos');
 
-        // Recorrer cada seguimiento para insertar en la base de datos
         for ($i = 1; $i <= $cantidad_seguimientos; $i++) {
             $fecha_ini = $request->input("fecha_ini_$i");
             $fecha_fin = $request->input("fecha_fin_$i");
 
-            // Solo guardar si ambas fechas están presentes
             if ($fecha_ini && $fecha_fin) {
-                // Crear un nuevo registro en la tabla PeriodoTutoria
                 PeriodoTutoria::create([
                     'periodo_id' => $periodo_id,
                     'fecha_ini' => $fecha_ini,
@@ -63,39 +60,6 @@ class PeriodoTutoriaController extends Controller
             }
         }
 
-        // Redirigir con mensaje de éxito
         return redirect()->route('periodotutorias')->with('success', 'Seguimientos abiertos correctamente.');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(PeriodoTutoria $periodoTutoria)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(PeriodoTutoria $periodoTutoria)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, PeriodoTutoria $periodoTutoria)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(PeriodoTutoria $periodoTutoria)
-    {
-        //
     }
 }

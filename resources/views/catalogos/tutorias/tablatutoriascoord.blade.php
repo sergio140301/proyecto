@@ -27,7 +27,7 @@
     @endif
 
     <div class="container text-center mt-5">
-        <h1 class="custom-title">Gestión de Períodos de Tutorías</h1>
+        <h1 class="custom-title">Coordinación de Tutorías</h1>
     </div>
 
     <!-- Botón para agregar nuevo período -->
@@ -45,7 +45,8 @@
                     <th scope="col">ID</th>
                     <th scope="col">Periodo</th>
                     <th scope="col">Tutor</th>
-                    <th scope="col">Ver</th>
+                    <th scope="col">Ver Tutorados</th>
+                    <th scope="col">Descargar Reporte</th>
                 </tr>
             </thead>
             <tbody>
@@ -55,9 +56,14 @@
                         <td>{{ $tutoria->periodo }}</td>
                         <td>{{ $tutoria->nombres }} {{ $tutoria->apellidop }} {{ $tutoria->apellidom }}</td>
                         <td>
-                            <a href="{{ route('tutorias.show', ['id' => $tutoria->id, 'periodo' => $tutoria->periodo]) }}">
-                                <img src="{{ asset('img/icono-ver.png') }}" width="50px" alt="Ver reporte">
-                            </a>
+                            <a href="{{ route('tutorias.show', ['iddocente' => $tutoria->id, 'periodo' => $tutoria->periodo]) }}">
+                                <img src="{{ asset('img/icono-ver.png') }}" width="50px" alt="Ver tutorados">
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ route('tutorias.reporte', ['iddocente' => $tutoria->id, 'periodo' => $tutoria->periodo]) }}">
+                                <img src="{{ asset('img/downloading.png') }}" width="50px" alt="Descargar Reporte">
+                            </a>
                         </td>
                     </tr>
                 @endforeach

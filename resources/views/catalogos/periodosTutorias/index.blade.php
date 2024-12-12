@@ -91,25 +91,29 @@
             <div class="row">
                 @if ($existenSeguimientos > 0)
                 <div id="cards-container" class="row g-3">
-                    <label for="periodo">Periodo Actual:</label>
+                    <strong>Periodo Actual:</strong>
                     <input type="text" class="form-control" id="periodo" value="{{ $periodos->periodo }}" readonly>
                     <input type="hidden" class="form-control" name="idperiodo" value="{{ $periodos->id }}" readonly>
 
-
+                    <div class="alert alert-success">
+                        Ya se asignaron fechas para los Seguimientos de este Periodo
+                    </div>
 
                     @foreach ($seguimientosAbiertos as $index => $seguimiento)
-                    <div class="col-md-6 col-lg-4">
+                    <div class="col">
                         <div class="card">
-                            <div class="card-header">
+                            <div class="card-header bg-primary text-white">
                                 <label>Seguimiento {{ $index + 1 }}</label>
                             </div>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col">
-                                        <input class="form-control" type="date" value="{{ $seguimiento->fecha_ini }}" readonly>
+                                        <p>Del:</p>
+                                        <input class="form-control" type="text" value="{{ $seguimiento->fecha_ini }}" readonly>
                                     </div>
                                     <div class="col">
-                                        <input class="form-control" type="date" value="{{ $seguimiento->fecha_fin }}" readonly>
+                                        <p>Al:</p>
+                                        <input class="form-control" type="text" value="{{ $seguimiento->fecha_fin }}" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -117,16 +121,8 @@
                     </div>
                     @endforeach
                 </div>
-
                 @endif
             </div>
-
-
-
-            <br><br><br>
-            <a href="{{ route('tutorias') }}" class="btn btn-secondary">
-                Asignación de maestro para tutorías
-            </a><br>
     </div>
 
     <script>

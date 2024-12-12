@@ -104,7 +104,7 @@
             {{ session('success') }}
         </div>
         @endif
-        <div class="form-title">¡Formulario Para Alumnos!</div>
+        <div class="form-title">Gestión Seguimiento Alumno</div>
 
         @if($existeRegistroSeguimiento<=0)
             <form method="POST" action="{{ route('formalumnos.store') }}">
@@ -113,7 +113,7 @@
                 <!-- Columna Izquierda -->
                 <div class="col-md-5">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header bg-primary text-white">
                             <h5>Información del Alumno</h5>
                         </div>
                         <div class="card-body">
@@ -143,7 +143,7 @@
                 <!-- Columna Derecha -->
                 <div class="col-md-7">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header bg-primary text-white">
                             <label for="periodo">Periodo Actual:</label>
                         </div>
                         <div class="card-body">
@@ -155,7 +155,7 @@
                     <br>
 
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header bg-primary text-white">
                             <label for="seguimientos">Seguimiento No. {{ $seguimientoActual->seguimiento }}</label>
                             <input type="hidden" class="form-control" id="seguimientos" name="periodo_tutoria_id" value="{{ $seguimientoActual->id }}" readonly>
                             <input type="hidden" class="form-control" name="numSeguimiento" value="{{ $seguimientoActual->seguimiento }}" readonly>
@@ -214,9 +214,9 @@
                             <th>Semestre</th>
                             <th>Docente</th>
 
-                            <th>Temas Evaluados</th>
+                            <th class="text-center">Temas Evaluados</th>
                             <th>Resultado</th>
-                            <th>Requiere Asesoría</th>
+                            <th class="text-center">Requiere Asesoría</th>
                             <th>Problemática</th>
                         </tr>
                     </thead>
@@ -227,7 +227,7 @@
                             <td hidden>{{ $materia->id }}</td>
                             <td>{{ $materia->idMateria }}</td>
                             <td>{{ $materia->nombreMateria }}</td>
-                            <td>{{ $materia->semestre }}</td>
+                            <td class="text-center">{{ $materia->semestre }}</td>
                             <td>{{ $materia->nombres }} {{ $materia->apellidop }} {{ $materia->apellidom }}</td>
                             <td>
                                 <select name="materias[{{ $materia->id }}][temasEv]" class="form-select">
@@ -247,7 +247,7 @@
                                     <option value="P">P</option>
                                 </select>
                             </td>
-                            <td>
+                            <td class="text-center">
                                 <input type="checkbox" name="materias[{{ $materia->id }}][asesoria]" value="1">
                             </td>
                             <td>
@@ -287,13 +287,13 @@
             </form>
             @endif
 
-            
+
             @if($existeRegistroSeguimiento>0)
             <div class="row">
                 <!-- Columna Izquierda -->
                 <div class="col-md-5">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header bg-primary text-white">
                             <h5>Información del Alumno</h5>
                         </div>
                         <div class="card-body">
@@ -318,13 +318,14 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
 
                 <!-- Columna Derecha -->
                 <div class="col-md-7">
                     <div class="card">
-                        <div class="card-header">
-                            <label for="periodo">Periodo Actual:</label>
+                        <div class="card-header bg-primary text-white">
+                            <label for="periodo">Periodo Actual</label>
                         </div>
                         <div class="card-body">
                             <input type="text" class="form-control" id="periodo" value="{{ $periodos->periodo }}" readonly>
@@ -335,7 +336,7 @@
                     <br>
 
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header bg-primary text-white">
                             <label for="seguimientos">Seguimiento No. {{ $seguimientoActual->seguimiento }}</label>
                             <input type="hidden" class="form-control" id="seguimientos" name="periodo_tutoria_id" value="{{ $seguimientoActual->id }}" readonly>
                             <input type="hidden" class="form-control" name="numSeguimiento" value="{{ $seguimientoActual->seguimiento }}" readonly>
@@ -362,6 +363,11 @@
                     <div class="row">
                         <div class="alert alert-success">
                             Los Resultados de las Materias de este Seguimiento ya fueron Registrados
+                        </div>
+
+                        <br>
+                        <div class="col">
+                            <a href="{{ route('generar-reporte') }}" class="btn btn-success">Descargar Seguimiento</a>
                         </div>
                     </div>
                 </div>

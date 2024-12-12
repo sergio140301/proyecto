@@ -4,13 +4,13 @@
         <a class="navbar-brand" href="#">Panel del Alumno</a>
 
         <!-- Botón colapsable para pantallas pequeñas -->
-        <button 
-            class="navbar-toggler" 
-            type="button" 
-            data-bs-toggle="collapse" 
-            data-bs-target="#navbarNav" 
-            aria-controls="navbarNav" 
-            aria-expanded="false" 
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
             aria-label="Toggle navigation"
         >
             <span class="navbar-toggler-icon"></span>
@@ -21,11 +21,11 @@
             <ul class="navbar-nav ms-auto">
                 <!-- Enlace para Tutorías -->
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('formalumnos') }}">Llenar seguimiento de tutorias</a>
+                    <a class="nav-link" href="{{ route('formalumnos.index')}}">Llenar seguimiento de tutorias</a>
                 </li>
                 <!-- Enlace para Asesorías -->
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('tablaalumnos')}}">Asesorías</a>
+                    <a class="nav-link" href="{{ route('formalumnos.asesoriasalumno')}}">Asesorías</a>
                 </li>
             </ul>
         </div>

@@ -21,9 +21,13 @@
 
 <div>
 
+    <div class="container text-center mt-5">
+        <h1 class="custom-title">Coordinación de Tutorías</h1>
+    </div>
+
     <div class="row">
         <div class="col">
-            <label for="periodo">Periodo Actual:</label>
+            <label for="periodo">Periodo:</label>
             <input type="text" class="form-control" id="periodo" value="{{ $periodos->periodo }}" readonly>
             <input type="hidden" class="form-control" name="idperiodo" value="{{ $periodos->id }}" readonly>
         </div>
@@ -35,13 +39,10 @@
     </div>
 
 
-
-
-    <div class="container text-center mt-5">
-        <h1 class="custom-title">Alumnos Tutorados</h1>
-    </div>
-
     <!-- Tabla de Tutorados -->
+    <div class="container text-center mt-5">
+        <h4 class="custom-title">Alumnos Tutorados</h4>
+    </div>
     <div class="table-responsive mt-3">
         <table class="table table-bordered table-hover table-primary">
             <thead>

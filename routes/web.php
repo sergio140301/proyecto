@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\MateriaAbiertaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DeptoController;
@@ -24,113 +25,83 @@ use App\Http\Controllers\GrupoHorarioController;
 use App\Http\Controllers\PeriodoTutoriaController;
 use App\Http\Controllers\RendimientoController;
 use App\Http\Controllers\TutoriaController;
+use App\Http\Controllers\TutoriaTutorController;
+use App\Http\Controllers\AsesoriaController;
 
 //rutas del pryecto tutorias
 
 
+//VISTA ADMIN
+Route::middleware('auth')->group(function () {
+    Route::get('/periodotutorias.index', [PeriodoTutoriaController::class, 'index'])->name('periodotutorias.index');
+    Route::resource('periodotutorias', PeriodoTutoriaController::class);
+    Route::get('/periodotutorias', [PeriodoTutoriaController::class, 'index'])->name('periodotutorias');
+});
 
-//rutas ojos 
-
-Route::get('/tutorias/{id}/{periodo}', [TutoriaController::class, 'show'])->name('tutorias.show');
-
-
-
-//rutas de TUTORIAS PERO DEL COORDINADOR
-// Redirigir /catalogos.tablatutorias a la acción index de TutoriaController
-Route::get('/catalogos/tablatutorias', [TutoriaController::class, 'index'])
-    ->middleware("auth")
-    ->name("tablatutorias");
-
-// Redirigir /catalogos.reportetutor a la acción index de TutoriaController
-Route::get('/catalogos/reportetutor', [TutoriaController::class, 'index2'])
-    ->middleware("auth")
-    ->name("reportetutor");
-
-
-
-//RUTAS DE TUTORIAS PERO EL DEL TUTOR ASIGNADOR PARA VER SUS ALUMNOS
-
-Route::get('/catalogos.tutores/alumnorendimiento', function () {
-    return view('catalogos.tutores.alumnorendimiento');
-})->middleware("auth")->name("alumnorendimiento");
-
-
-Route::get('/catalogos.tutores/asesorias', [TutoriaController::class, 'index3'])
-    ->middleware("auth")
-    ->name("asesorias");
-
-
-
-Route::get('/catalogos.tutores/tablatutor', [TutoriaController::class, 'index2'])
-    ->middleware("auth")
-    ->name("tablatutor");
-
-    Route::get('/tutorias/{id}/{periodo}', [TutoriaController::class, 'show'])->name('tutorias.show');
-
-
-Route::get('/catalogos.tutores/asesoriasalumnos', [FormAlumnoController::class, 'index2'])
-    ->middleware("auth")
-    ->name("asesoriasalumnos");
-
-
-Route::get('/catalogos.formAlumnos.tablaalumnos', [FormAlumnoController::class, 'index2'])
-    ->middleware("auth")
-    ->name("tablaalumnos");
-
-
-
-    Route::middleware(['auth'])->group(function () {
-        Route::get('/catalogos.tutorias/listatutorados', function () {
-            return view('catalogos.tutorias.listatutorados'); // Vista para usuarios identificados
-        })->name('listatutorados');
-    });
-    
-
-
-
-
-
-
-
-//rutas de tutorias
+//VISTA COORDINADOR
 Route::middleware('auth')->group(function () {
     Route::get('/tutorias', action: [TutoriaController::class, 'index'])->name('tutorias');
 
-    Route::get('/tutorias.index', [TutoriaController::class, 'index'])->name('tutorias.index');
+    Route::get('/tutorias.tablatutoriascoord', [TutoriaController::class, 'index'])->name('tutorias.tablatutoriascoord');
     Route::get('/tutorias.create', [TutoriaController::class, 'create'])->name('tutorias.create');
     Route::post('/tutorias.store', [TutoriaController::class, 'store'])->name('tutorias.store');
-    
-    Route::get('/tutorias/{id}/{periodo}', [TutoriaController::class, 'show'])->name('tutorias.show');
+    Route::get('/tutorias/{iddocente}/{periodo}', [TutoriaController::class, 'show'])->name('tutorias.show');
+    Route::get('/tutorias/reporte/{iddocente}/{periodo}', [TutoriaController::class, 'generaReporte'])->name('tutorias.reporte');
 
-    Route::get('/tutorias.edit/{tutoria}', [TutoriaController::class, 'edit'])->name('tutorias.edit');
-    Route::post('/tutorias.update/{tutoria}', [TutoriaController::class, 'update'])->name('tutorias.update');
-    Route::get('/tutorias/eliminar/{tutoria}', [TutoriaController::class, 'eliminar'])->name('tutorias.eliminar');
-    Route::delete('/tutorias/{tutoria}', [TutoriaController::class, 'destroy'])->name('tutorias.destroy');
+
 });
- 
-//ruta para formAlumnos
+
+//VISTA TUTOR
+Route::middleware('auth')->group(function () {
+    Route::get('/tutoriastutor', action: [TutoriaTutorController::class, 'index'])->name('tutoriastutor');
+
+    //tutorias
+    Route::get('/tutoriastutor.tablatutor', [TutoriaTutorController::class, 'index'])->name('tutoriastutor.tablatutor');
+    Route::get('/tutoriastutor/{noctrl}/{idperiodo}', [TutoriaTutorController::class, 'show'])->name('tutoriastutor.show');
+    Route::get('/tutoriastutor/generar-excel', [TutoriaTutorController::class, 'generarExcel'])->name('tutoriastutor.generarExcel');
+
+});
+
+    //asesorias
+    Route::middleware('auth')->group(function () {
+        Route::get('/asesorias', [AsesoriaController::class, 'index'])->name('asesorias');
+
+        Route::get('/asesorias.asesoriastutor', [AsesoriaController::class, 'index'])->name('asesorias.asesoriastutor');
+        Route::post('/asesorias.store', [AsesoriaController::class, 'store'])->name('asesorias.store');
+        Route::get('/asesorias/{id}/{noctrl}', [AsesoriaController::class, 'asignarAs'])->name('asesorias.asignarAs');
+    });
+
+
+
+
+//VISTA TUTOR
+Route::middleware('auth')->group(function () {
+    Route::get('/tutoriastutor', action: [TutoriaTutorController::class, 'index'])->name('tutoriastutor');
+
+    //tutorias
+    Route::get('/tutoriastutor.tablatutor', [TutoriaTutorController::class, 'index'])->name('tutoriastutor.tablatutor');
+    Route::get('/tutoriastutor/{noctrl}/{idperiodo}', [TutoriaTutorController::class, 'show'])->name('tutoriastutor.show');
+    Route::get('/tutoriastutor/generar-excel', [TutoriaTutorController::class, 'generarExcel'])->name('tutoriastutor.generarExcel');
+
+});
+
+
+
+
+//VISTA ALUMNOS
 Route::middleware('auth')->group(function () {
     Route::get('/formalumnos.index', [FormAlumnoController::class, 'index'])->name('formalumnos.index');
 
     Route::resource('formalumnos', FormAlumnoController::class);
-    
+
     Route::get('/formalumnos', [FormAlumnoController::class, 'index'])->name('formalumnos');
+    Route::get('/generar-reporte', [FormAlumnoController::class, 'generaReporte'])->name('generar-reporte');
+
+    Route::get('/formalumnos.asesoriasalumno', [FormAlumnoController::class, 'index2'])->name('formalumnos.asesoriasalumno');
+    Route::get('/generar-reporte-asesoria', [FormAlumnoController::class, 'generaReporteAsesoria'])->name('generar-reporte-asesoria');
+
 
 });
-
-
-//ruta para periodosTutorias
-Route::middleware('auth')->group(function () {
-    Route::get('/periodotutorias.index', [PeriodoTutoriaController::class, 'index'])->name('periodotutorias.index');
-
-    Route::resource('periodotutorias', PeriodoTutoriaController::class);
-    
-    Route::get('/periodotutorias', [PeriodoTutoriaController::class, 'index'])->name('periodotutorias');
-
-});
-
-//rendimientos
-Route::get('/rendimientos', [RendimientoController::class, 'index'])->name('rendimientos');
 
 
 
@@ -173,13 +144,13 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/catalogos.otraVista', [CatalogoController::class, 'otraVista'])->name('catalogos.otraVista');
     Route::get('/catalogos/submenu', [CatalogoController::class, 'submenu'])->name('catalogos.submenu');
-    
+
     Route::middleware('auth')->group(function () {
         Route::get('/catalogos/submenu', [CatalogoController::class, 'submenu'])->name('catalogos.submenu');
     });
-    });
+});
 
-    
+
 //*SIN LLAVE FORANEA*
 //PERIODOS
 //RUTA DE PERIODOS + AUTH
@@ -377,7 +348,7 @@ Route::middleware('auth')->group(function () {
 });
 
 
- 
+
 
 
 //rutas de materiasAbiertas
@@ -386,9 +357,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/materiasabiertas.index', [MateriaAbiertaController::class, 'index'])->name('materiasabiertas.index');
 
     Route::resource('materiasabiertas', MateriaAbiertaController::class);
-    
-    Route::get('/materias-abiertas', [MateriaAbiertaController::class, 'index'])->name('materiasabiertas');
 
+    Route::get('/materias-abiertas', [MateriaAbiertaController::class, 'index'])->name('materiasabiertas');
 });
 
 
@@ -400,13 +370,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/aperturagrupo.index', [GrupoHorarioController::class, 'index'])->name('aperturagrupo.index');
 
     Route::get('/aperturagrupo.edit/{grupo}', [GrupoHorarioController::class, 'edit'])->name('aperturagrupo.edit');    // Rutas para las acciones CRUD de grupoHorario
-    
+
     Route::resource('aperturagrupo', GrupoHorarioController::class);
-    
+
     // Ruta alternativa para mostrar grupoHorarios
     Route::get('/apertura-grupo', [GrupoHorarioController::class, 'index'])->name('aperturagrupo');
 });
- 
+
 
 
 
@@ -442,7 +412,7 @@ Route::get('/horarios.index', function () {
 
 Route::get('/horarios.submenuhorarios', function () {
     return view('horarios.submenuhorarios');
-})->middleware("auth")->name("horarios.submenuhorarios"); 
+})->middleware("auth")->name("horarios.submenuhorarios");
 
 
 //rutas de Proyectos personales
@@ -472,7 +442,7 @@ Route::get('/catalogos.submenu', function () {
 
 
 
- //ruta principal de bienvenida.
+//ruta principal de bienvenida.
 
 Route::get('/', function () {
     return view('inicio');
@@ -525,4 +495,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

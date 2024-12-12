@@ -10,7 +10,7 @@ class Rendimiento extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['temasEv', 'resultado', 'asesoria', 'problematica', 'observaciones', 'form_alumno_id' ];
+    protected $fillable = ['temasEv', 'resultado', 'asesoria', 'problematica', 'observaciones','seguimiento', 'form_alumno_id' ];
 
     public function FormAlumno()
     {
