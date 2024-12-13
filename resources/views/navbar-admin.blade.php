@@ -24,12 +24,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('grupos18283.index')}}">Apertura de Grupos</a>
-                </li>
-
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('materiasabiertas') }}">Apertura de Materias</a>
+                    <a class="nav-link" href="{{ route('materiasabiertas') }}">Apertura de Materias y Grupo</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('periodotutorias') }}">Abrir Seguimientos</a>

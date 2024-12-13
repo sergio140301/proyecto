@@ -103,8 +103,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/grupos18283.edit/{grupo18283}', [GrupoController::class, 'edit'])->name('grupos18283.edit');
     Route::put('/grupos18283.update/{grupo18283}', [GrupoController::class, 'update'])->name('grupos18283.update');
 
-    /* Route::post('/grupos18283/{grupoId}/horario/store', [Grupo18283Controller::class, 'storeHorario'])->name('grupos18283.storeHorario');
-    Route::delete('/grupos18283/{grupoId}/horario/{dia}/{hora}', [Grupo18283Controller::class, 'destroyHorario'])->name('grupos18283.destroyHorario'); */
+    Route::post('/grupos18283/{grupoId}/horario/store', [Grupo18283Controller::class, 'storeHorario'])->name('grupos18283.storeHorario');
+    Route::delete('/grupos18283/{grupoId}/horario/{dia}/{hora}', [Grupo18283Controller::class, 'destroyHorario'])->name('grupos18283.destroyHorario');
 
     Route::get('/grupos18283/eliminar/{grupo18283}', [GrupoController::class, 'eliminar'])->name('grupos18283.eliminar');
     Route::delete('/grupos18283/{grupo18283}', [GrupoController::class, 'destroy'])->name('grupos18283.destroy');
