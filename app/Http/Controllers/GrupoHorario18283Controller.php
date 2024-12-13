@@ -18,7 +18,7 @@ class GrupoHorario18283Controller extends Controller
         $this->validado = [
             'dia' => 'required|string|max:255',
             'hora' => 'required|string|max:50',
-            'grupo_id' => 'required|exists:grupos,id',
+            'grupo18283_id' => 'required|exists:grupo18283s,id',
             'lugar_id' => 'required|exists:lugars,id',
         ];
 

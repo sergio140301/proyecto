@@ -19,7 +19,7 @@ class Grupo18283Controller extends Controller
     public function __construct()
     {
         $this->validado = [
-            'grupo' => 'required|string|max:255|unique:grupos',
+            'grupo' => 'required|string|max:255|unique:grupo18283s',
             'descripcion' => 'nullable|string|max:255',
             'maxAlumnos' => 'required|integer',
             'periodo_id' => 'required|exists:periodos,id',
@@ -123,12 +123,12 @@ class Grupo18283Controller extends Controller
 
         foreach ($horas as $hora) {
             $horaLabel = $hora->hora_ini . ' - ' . $hora->hora_fin;
-            $contador = GrupoHorario18283::where('grupo_id', $grupo18283->id)
+            $contador = GrupoHorario18283::where('grupo18283_id', $grupo18283->id)
                 ->where('dia', $dia)
                 ->where('hora', $horaLabel)
                 ->count();
 
-            $registro = GrupoHorario18283::where('grupo_id', $grupo18283->id)
+            $registro = GrupoHorario18283::where('grupo18283_id', $grupo18283->id)
                 ->where('dia', $dia)
                 ->where('hora', $horaLabel)
                 ->first();
@@ -172,14 +172,14 @@ class Grupo18283Controller extends Controller
 
         // Validar los datos enviados del formulario específico
         $request->validate([
-            'grupo_id' => 'required|exists:grupos,id',
+            'grupo18283_id' => 'required|exists:grupo18283s,id',
             'dia' => 'required|string|max:20',
             'hora' => 'required|string|max:50',
             'lugar_id' => 'required|exists:lugars,id',
         ]);
 
         GrupoHorario18283::create([
-            'grupo18283_id' => $request->input('grupo_id'),
+            'grupo18283_id' => $request->input('grupo18283_id'),
             'dia' => $request->input('dia'),
             'hora' => $request->input('hora'),
             'lugar_id' => $request->input('lugar_id'),
@@ -193,7 +193,7 @@ class Grupo18283Controller extends Controller
     public function destroyHorario($grupoId, $dia, $hora)
     {
 
-        GrupoHorario18283::where('grupo_id', $grupoId)
+        GrupoHorario18283::where('grupo18283_id', $grupoId)
             ->where('dia', $dia)
             ->where('hora', $hora)
             ->delete();
