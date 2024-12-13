@@ -98,6 +98,14 @@
 </head>
 
 <body>
+
+    @if (isset($error))
+    <div class="alert alert-danger mt-2">
+        {{ $error }}
+    </div>
+    @else
+
+
     <div class="container">
         @if (session('success'))
         <div class="alert alert-success">
@@ -178,6 +186,7 @@
 
                 </div>
 
+                @if($existeHorario>0)
                 <div class="mb-3">
                     <br><br>
                     <div class="row">
@@ -203,7 +212,6 @@
                         P = Pendiente de calificación
                     </div>
                 </div>
-
 
                 <table class="table table-bordered">
                     <thead>
@@ -258,195 +266,212 @@
 
                     </tbody>
                 </table>
+                @endif
+
+                @if($existeHorario<=0)
+                    <div class="alert alert-danger">
+                    No tiene un Horario Cargado
+                    </div>
+                @endif
+    </div>
+
+
+    <!-- Fila Inferior -->
+    <div class="row mt-4">
+        <div class="col-md-6 text-center">
+            <div class="pre-cargado">
+                <label for="tutor"> <strong>Tutor:</strong> {{ $tutor->nombres }} {{ $tutor->apellidop }} {{ $tutor->apellidom }} </label>
+                <input id="tutor" type="hidden" name="tutorName" value="{{ $tutor->nombres }} {{ $tutor->apellidop }} {{ $tutor->apellidom }}">
+            </div>
+        </div>
+        <div class="col-md-6 text-center">
+            <div class="disponibilizado">
+                <span>Disponibilizado:</span> MAyL Hilda P. Beltrán Hernández
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="coordinadora">
+                Nombre coordinadora de Tutorías Dpto. Académico
             </div>
 
+            <label id="fechaHoy" class="text-center d-block"></label>
+        </div>
+    </div>
+    </form>
+    @endif
 
-            <!-- Fila Inferior -->
-            <div class="row mt-4">
-                <div class="col-md-6 text-center">
-                    <div class="pre-cargado">
-                        <label for="tutor"> <strong>Tutor:</strong> {{ $tutor->nombres }} {{ $tutor->apellidop }} {{ $tutor->apellidom }} </label>
-                        <input id="tutor" type="hidden" name="tutorName" value="{{ $tutor->nombres }} {{ $tutor->apellidop }} {{ $tutor->apellidom }}">
-                    </div>
+
+    @if($existeRegistroSeguimiento>0)
+    <div class="row">
+        <!-- Columna Izquierda -->
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5>Información del Alumno</h5>
                 </div>
-                <div class="col-md-6 text-center">
-                    <div class="disponibilizado">
-                        <span>Disponibilizado:</span> MAyL Hilda P. Beltrán Hernández
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="coordinadora">
-                        Nombre coordinadora de Tutorías Dpto. Académico
-                    </div>
-
-                    <label id="fechaHoy" class="text-center d-block"></label>
-                </div>
-            </div>
-            </form>
-            @endif
-
-
-            @if($existeRegistroSeguimiento>0)
-            <div class="row">
-                <!-- Columna Izquierda -->
-                <div class="col-md-5">
-                    <div class="card">
-                        <div class="card-header bg-primary text-white">
-                            <h5>Información del Alumno</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <input type="hidden" class="form-control" id="idAlumno" name="alumno_id" value="{{ $alumno->id }}" readonly>
-
-                                <div class="col-sm-3">
-                                    <label for="noControl">No Control:</label>
-                                    <input type="text" class="form-control" id="noControl" name="noCtrl" value="{{ $alumno->noctrl }}" readonly>
-                                    <br>
-                                    <label for="semestre">Semestre:</label>
-                                    <input type="text" class="form-control" id="semestre" value="{{ $alumno->semestre }}" readonly>
-                                </div>
-                                <div class="col">
-                                    <label for="nombreAlumno">Alumno:</label>
-                                    <input type="text" class="form-control" id="nombreAlumno" name="alumnoName" value="{{ $alumno->nombre }} {{ $alumno->apellidop }} {{ $alumno->apellidom }}" readonly>
-                                    <br>
-                                    <label for="carrera">Carrera:</label>
-                                    <input type="text" class="form-control" id="carrera" name="carrera_id" value="{{ $alumno->nombreCarrera }}" readonly>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- Columna Derecha -->
-                <div class="col-md-7">
-                    <div class="card">
-                        <div class="card-header bg-primary text-white">
-                            <label for="periodo">Periodo Actual</label>
-                        </div>
-                        <div class="card-body">
-                            <input type="text" class="form-control" id="periodo" value="{{ $periodos->periodo }}" readonly>
-                            <input type="hidden" class="form-control" name="idperiodo" value="{{ $periodos->id }}" readonly>
-                        </div>
-                    </div>
-
-                    <br>
-
-                    <div class="card">
-                        <div class="card-header bg-primary text-white">
-                            <label for="seguimientos">Seguimiento No. {{ $seguimientoActual->seguimiento }}</label>
-                            <input type="hidden" class="form-control" id="seguimientos" name="periodo_tutoria_id" value="{{ $seguimientoActual->id }}" readonly>
-                            <input type="hidden" class="form-control" name="numSeguimiento" value="{{ $seguimientoActual->seguimiento }}" readonly>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <label for="fecha_ini" id="">Del:</label>
-                                    <input class="form-control" id="fecha_ini" value="{{ $seguimientoActual->fecha_ini }}" readonly>
-                                </div>
-                                <div class="col">
-                                    <label for="fecha_fin" id="">Al:</label>
-                                    <input class="form-control" id="fecha_fin" value="{{ $seguimientoActual->fecha_fin }}" readonly>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-
-
-                </div>
-
-                <div class="mb-3">
+                <div class="card-body">
                     <div class="row">
-                        <div class="alert alert-success">
-                            Los Resultados de las Materias de este Seguimiento ya fueron Registrados
-                        </div>
+                        <input type="hidden" class="form-control" id="idAlumno" name="alumno_id" value="{{ $alumno->id }}" readonly>
 
-                        <br>
+                        <div class="col-sm-3">
+                            <label for="noControl">No Control:</label>
+                            <input type="text" class="form-control" id="noControl" name="noCtrl" value="{{ $alumno->noctrl }}" readonly>
+                            <br>
+                            <label for="semestre">Semestre:</label>
+                            <input type="text" class="form-control" id="semestre" value="{{ $alumno->semestre }}" readonly>
+                        </div>
                         <div class="col">
-                            <a href="{{ route('generar-reporte') }}" class="btn btn-success">Descargar Seguimiento</a>
+                            <label for="nombreAlumno">Alumno:</label>
+                            <input type="text" class="form-control" id="nombreAlumno" name="alumnoName" value="{{ $alumno->nombre }} {{ $alumno->apellidop }} {{ $alumno->apellidom }}" readonly>
+                            <br>
+                            <label for="carrera">Carrera:</label>
+                            <input type="text" class="form-control" id="carrera" name="carrera_id" value="{{ $alumno->nombreCarrera }}" readonly>
+
                         </div>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col">
-                        A = Acreditado
-                    </div>
-                    <div class="col">
-                        NA = No Acreditado
-                    </div>
-                    <div class="col">
-                        P = Pendiente de calificación
-                    </div>
-                </div>
-
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th hidden>ID</th>
-                            <th>Clave</th>
-                            <th>Nombre</th>
-                            <th>Semestre</th>
-                            <th>Docente</th>
-
-                            <th>Temas Evaluados</th>
-                            <th>Resultado</th>
-                            <th>Requiere Asesoría</th>
-                            <th>Problemática</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @foreach($materiasRegSeguimiento as $materia)
-                        <tr>
-                            <td hidden>{{ $materia->id }}</td>
-                            <td>{{ $materia->idMateria }}</td>
-                            <td>{{ $materia->nombreMateria }}</td>
-                            <td>{{ $materia->semestre }}</td>
-                            <td>{{ $materia->nombres }} {{ $materia->apellidop }} {{ $materia->apellidom }}</td>
-
-                            <td>{{ $materia->temasEv }}</td>
-                            <td>{{ $materia->resultado }}</td>
-                            <td>{{ $materia->asesoria ? 'Sí' : 'No' }}</td>
-                            <td>{{ $materia->problematica }}</td>
-                        </tr>
-                        @endforeach
-
-                    </tbody>
-                </table>
-
-                <div class="row mt-4">
-                    <div class="col-md-6 text-center">
-                        <div class="pre-cargado">
-                            <label for="tutor"> <strong>Tutor:</strong> {{ $tutor->nombres }} {{ $tutor->apellidop }} {{ $tutor->apellidom }} </label>
-                            <input id="tutor" type="hidden" name="tutorName" value="{{ $tutor->nombres }} {{ $tutor->apellidop }} {{ $tutor->apellidom }}">
-                        </div>
-                    </div>
-                    <div class="col-md-6 text-center">
-                        <div class="disponibilizado">
-                            <span>Disponibilizado:</span> MAyL Hilda P. Beltrán Hernández
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="coordinadora">
-                            Nombre coordinadora de Tutorías Dpto. Académico
-                        </div>
-
-                        <label id="fechaHoy" class="text-center d-block"></label>
-                    </div>
-                </div>
-
             </div>
-            @endif
+
+        </div>
+
+        <!-- Columna Derecha -->
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <label for="periodo">Periodo Actual</label>
+                </div>
+                <div class="card-body">
+                    <input type="text" class="form-control" id="periodo" value="{{ $periodos->periodo }}" readonly>
+                    <input type="hidden" class="form-control" name="idperiodo" value="{{ $periodos->id }}" readonly>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <label for="seguimientos">Seguimiento No. {{ $seguimientoActual->seguimiento }}</label>
+                    <input type="hidden" class="form-control" id="seguimientos" name="periodo_tutoria_id" value="{{ $seguimientoActual->id }}" readonly>
+                    <input type="hidden" class="form-control" name="numSeguimiento" value="{{ $seguimientoActual->seguimiento }}" readonly>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <label for="fecha_ini" id="">Del:</label>
+                            <input class="form-control" id="fecha_ini" value="{{ $seguimientoActual->fecha_ini }}" readonly>
+                        </div>
+                        <div class="col">
+                            <label for="fecha_fin" id="">Al:</label>
+                            <input class="form-control" id="fecha_fin" value="{{ $seguimientoActual->fecha_fin }}" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+
+
+        </div>
+
+        @if($existeHorario>0)
+        <div class="mb-3">
+            <div class="row">
+                <div class="alert alert-success">
+                    Los Resultados de las Materias de este Seguimiento ya fueron Registrados
+                </div>
+
+                <br>
+                <div class="col">
+                    <a href="{{ route('generar-reporte') }}" class="btn btn-success">Descargar Seguimiento</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                A = Acreditado
+            </div>
+            <div class="col">
+                NA = No Acreditado
+            </div>
+            <div class="col">
+                P = Pendiente de calificación
+            </div>
+        </div>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th hidden>ID</th>
+                    <th>Clave</th>
+                    <th>Nombre</th>
+                    <th>Semestre</th>
+                    <th>Docente</th>
+
+                    <th>Temas Evaluados</th>
+                    <th>Resultado</th>
+                    <th>Requiere Asesoría</th>
+                    <th>Problemática</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach($materiasRegSeguimiento as $materia)
+                <tr>
+                    <td hidden>{{ $materia->id }}</td>
+                    <td>{{ $materia->idMateria }}</td>
+                    <td>{{ $materia->nombreMateria }}</td>
+                    <td>{{ $materia->semestre }}</td>
+                    <td>{{ $materia->nombres }} {{ $materia->apellidop }} {{ $materia->apellidom }}</td>
+
+                    <td>{{ $materia->temasEv }}</td>
+                    <td>{{ $materia->resultado }}</td>
+                    <td>{{ $materia->asesoria ? 'Sí' : 'No' }}</td>
+                    <td>{{ $materia->problematica }}</td>
+                </tr>
+                @endforeach
+
+            </tbody>
+        </table>
+        @endif
+
+        @if($existeHorario<=0)
+            <div class="alert alert-danger">
+            No tiene un Horario Cargado
+            </div>
+        @endif
+
+    <!-- fila inferior -->
+    <div class="row mt-4">
+        <div class="col-md-6 text-center">
+            <div class="pre-cargado">
+                <label for="tutor"> <strong>Tutor:</strong> {{ $tutor->nombres }} {{ $tutor->apellidop }} {{ $tutor->apellidom }} </label>
+                <input id="tutor" type="hidden" name="tutorName" value="{{ $tutor->nombres }} {{ $tutor->apellidop }} {{ $tutor->apellidom }}">
+            </div>
+        </div>
+        <div class="col-md-6 text-center">
+            <div class="disponibilizado">
+                <span>Disponibilizado:</span> MAyL Hilda P. Beltrán Hernández
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="coordinadora">
+                Nombre coordinadora de Tutorías Dpto. Académico
+            </div>
+
+            <label id="fechaHoy" class="text-center d-block"></label>
+        </div>
+    </div>
+
+    </div>
+    @endif
 
     </div>
 
+    @endif
     <!-- script para fecha actual -->
     <script>
         // Función para obtener el nombre del día en español
@@ -481,9 +506,5 @@
     </script>
 
 </body>
-
-
-
-
 </html>
 @endsection

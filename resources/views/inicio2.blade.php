@@ -8,96 +8,79 @@
 
     @vite(['resources/js/app.js'])
 
-{{-- <style>
-    /* Row */
-.container .row .row{
- padding-right:284px;
- width:284px;
-}
+    <title>Proyecto Tutorias</title>
 
-@media (min-width:768px){
-
- /* Column 6/12 */
- .container .container .row .col-md-6{
-  width:25% !important;
- } 
- 
-}
-</style> --}}
-
-    <title>Inicio2</title>
 </head>
 
 <body>
 
     <div class="container">
+        {{-- navbars --}}
         <div class="row">
             <div class="col">
-                @include('menu2')
+                @if (Auth::user()->rol == 'admin')
+                    @include('navbar-admin')
+                @elseif(Auth::user()->rol == 'coord')
+                    @include('navbar-coord-tutores')
+                @elseif(Auth::user()->rol == 'tutor')
+                    @include('navbar-tutor')
+                @elseif(Auth::user()->rol == 'alumno')
+                    @include('navbar-alumno')
+                @endif
             </div>
         </div>
+
+        <div class="row">
+            <div class="col">
+            <h1>Bienvenido, {{ Auth::user()->rol }} 🐻 </h1>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                const welcomeTitle = document.querySelector('h1');
+                if (welcomeTitle) {
+                welcomeTitle.style.display = 'none';
+                }
+            }, 3000); // Adjust the time as needed
+            });
+        </script>
 
         <div class="container">
             <div class="row">
                 <div class="col">
-                    @include('navbar-admin')
-                </div>
-            </div>
-
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        @include('navbar-coord-tutores')
-                    </div>
-                </div>
-      
-                <div class="container">
-                    <div class="row">
-                        <div class="col">
-                            @include('navbar-tutor')
-                        </div>
-                    </div>
-
-                    <div class="container">
-                        <div class="row">
-                            <div class="col">
-                                @include('navbar-alumno')
-                            </div>
-                        </div>
-
-            <div class="row">
-                <div class="col">
                     @yield('contenido4000')
                 </div>
-            </div> 
+            </div>
 
             <div class="row">
                 <div class="col">
                     @yield('apertura_materias')
                 </div>
-            </div> 
+            </div>
 
             <div class="row">
                 <div class="col">
                     @yield('seleccion_grupos')
                 </div>
-            </div> 
+            </div>
 
             <div class="row">
                 <div class="col">
                     @yield('esquema_apertura_materias')
                 </div>
-            </div> 
+            </div>
 
 
             <div class="row">
-                <div class="col"> 
+                <div class="col">
                     @yield('contenido2')
                 </div>
-                 <div class="col-md-12"> 
+                <div class="col-md-12">
                     @yield('bienvenida')
                 </div>
-            </div> 
+            </div>
 
             <div class="row">
                 <div class="col">
@@ -112,6 +95,7 @@
             </div>
         </div>
     </div>
+
 
 </body>
 

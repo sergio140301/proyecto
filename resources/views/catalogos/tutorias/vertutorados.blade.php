@@ -62,6 +62,10 @@
                 @endforeach
             </tbody>
         </table>
+            <!-- Paginación -->
+            <div class="d-flex justify-content-center mt-3">
+                {{ $tutorias->links() }}
+            </div>
     </div>
 </div>
 

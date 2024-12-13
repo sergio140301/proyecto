@@ -119,7 +119,7 @@ class Grupo18283Controller extends Controller
 
         $contadorRegistros = [];
         $lugaresAsociados = [];
-        $dia = 'Lunes'; // Ajusta según el valor necesario o dinámico desde la vista
+        $dia = "L";
 
         foreach ($horas as $hora) {
             $horaLabel = $hora->hora_ini . ' - ' . $hora->hora_fin;

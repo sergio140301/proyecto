@@ -8,13 +8,14 @@ use App\Models\Materia;
 use App\Models\Rendimiento;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpWord\TemplateProcessor;
 
 class FormAlumnoController extends Controller
 {
 
-    public function index()
+    public function index() //tutorias
     {
         $alumno = DB::table('alumnos as a')
             ->select(
@@ -30,7 +31,7 @@ class FormAlumnoController extends Controller
                     END AS semestre')
             )
             ->join('carreras as c', 'a.carrera_id', '=', 'c.id')
-            ->where('a.id', 22) /* se supone debe traerse el id del alumno loggeado (session) */
+            ->where('a.id', Auth::user()->alumno_id) /* se supone debe traerse el id del alumno loggeado (session) */
             ->first();
 
         $seguimientoActual = DB::table(DB::raw('(
@@ -47,6 +48,11 @@ class FormAlumnoController extends Controller
             ->whereRaw('CURRENT_DATE BETWEEN fecha_ini AND fecha_fin')
             ->first();
 
+            if (is_null($seguimientoActual)) {
+                return view('catalogos.formAlumnos.index')->with('error', 'No hay ningún Seguimiento Abierto');
+            }
+
+
         $periodos = DB::table('periodos')
             ->select('*') // Selecciona todos los campos de la tabla periodos
             ->whereRaw("
@@ -59,7 +65,7 @@ class FormAlumnoController extends Controller
             ->whereRaw("RIGHT(periodo, 2) = RIGHT(YEAR(CURDATE()), 2)")
             ->first();
 
-        $materias = DB::table('materias as m')
+        $materias = DB::table('materias as m') //form
             ->select('m.id', 'm.idMateria', 'm.nombreMateria', 'm.semestre', 'pe.nombres', 'pe.apellidop', 'pe.apellidom')
             ->join('grupos as g', 'm.id', '=', 'g.materia_id')
             ->join('personals as pe', 'g.personal_id', '=', 'pe.id')
@@ -82,7 +88,7 @@ class FormAlumnoController extends Controller
 
 
 
-        $materiasRegSeguimiento = DB::table('rendimientos as r')
+        $materiasRegSeguimiento = DB::table('rendimientos as r') //consulta rendimientos
             ->select(
                 'm.id',
                 'm.idMateria',
@@ -109,7 +115,7 @@ class FormAlumnoController extends Controller
             ->where('pt.id', '=', $seguimientoActual->id)
             ->get();
 
-        $existeRegistroSeguimiento = DB::table('rendimientos as r')
+        $existeRegistroSeguimiento = DB::table('rendimientos as r') //registro rendimientos?
             ->join('form_alumnos as fa', 'r.form_alumno_id', '=', 'fa.id')
             ->join('materias as m', 'fa.materia_id', '=', 'm.id')
             ->join('grupos as g', 'm.id', '=', 'g.materia_id')
@@ -123,11 +129,17 @@ class FormAlumnoController extends Controller
             ->where('pt.id', '=', $seguimientoActual->id)
             ->count();
 
+            $existeHorario = DB::table('horario_alumnos as ha') //este alumno tiene horario?
+            ->join('alumnos as a', 'ha.alumno_id', '=', 'a.id')
+            ->join('grupos as g', 'ha.grupo_id', '=', 'g.id')
+            ->where('a.id', $alumno->id)
+            ->count('*');
 
-        return view('catalogos.formAlumnos.index', compact('materias', 'alumno', 'seguimientoActual', 'tutor', 'periodos', 'materiasRegSeguimiento', 'existeRegistroSeguimiento'));
+
+        return view('catalogos.formAlumnos.index', compact('materias', 'alumno', 'seguimientoActual', 'tutor', 'periodos', 'materiasRegSeguimiento', 'existeRegistroSeguimiento', 'existeHorario'));
     }
 
-    public function index2()
+    public function index2() //asesorias
     {
         $periodos = DB::table('periodos')
             ->select('*') // Selecciona todos los campos de la tabla periodos
@@ -159,7 +171,7 @@ class FormAlumnoController extends Controller
                 'd.apellidom'
             )
             ->where('pt.periodo_id', $periodos->id) // Filtro por periodo
-            ->where('a.id', 22) // Filtro por ID de alumno
+            ->where('a.id', Auth::user()->alumno_id) // Filtro por ID de alumno
             ->get();
 
         return view('catalogos.formAlumnos.asesoriasalumno', compact('periodos', 'asesorias'));
@@ -212,7 +224,7 @@ class FormAlumnoController extends Controller
             ->join('form_alumnos as fa', 'r.form_alumno_id', '=', 'fa.id')
             ->join('periodo_tutorias as pt', 'fa.periodo_tutoria_id', '=', 'pt.id')
             ->select(DB::raw("DATE_FORMAT(r.created_at, '%d-%m-%Y') AS fechaR"))
-            ->where('fa.alumno_id', 22) //id alumno loggeado
+            ->where('fa.alumno_id', Auth::user()->alumno_id) //id alumno loggeado
             ->where('pt.periodo_id', $periodoActual->id)
             ->orderBy('r.created_at', 'ASC')
             ->first();
@@ -229,7 +241,7 @@ class FormAlumnoController extends Controller
                 'a.noctrl',
                 DB::raw("CONCAT(d.nombres, ' ', d.apellidop, ' ', d.apellidom) as docente")
             )
-            ->where('a.id', 22) //id alumno loggeado
+            ->where('a.id', Auth::user()->alumno_id) //id alumno loggeado
             ->where('t.periodo_id', $periodoActual->id)
             ->first();
 
@@ -245,7 +257,7 @@ class FormAlumnoController extends Controller
                 'r.temasEv',
                 'r.resultado'
             )
-            ->where('fa.alumno_id', 22) //id alumno loggeado
+            ->where('fa.alumno_id', Auth::user()->alumno_id) //id alumno loggeado
             ->where('g.periodo_id', $periodoActual->id)
             ->get();
 
@@ -300,7 +312,7 @@ class FormAlumnoController extends Controller
             ->join('form_alumnos as fa', 'r.form_alumno_id', '=', 'fa.id')
             ->join('periodo_tutorias as pt', 'fa.periodo_tutoria_id', '=', 'pt.id')
             ->select(DB::raw("DATE_FORMAT(r.created_at, '%d-%m-%Y') AS fechaR"))
-            ->where('fa.alumno_id', 22) //id alumno loggeado
+            ->where('fa.alumno_id', Auth::user()->alumno_id) //id alumno loggeado
             ->where('pt.periodo_id', $periodoActual->id)
             ->orderBy('r.created_at', 'ASC')
             ->first();
@@ -317,7 +329,7 @@ class FormAlumnoController extends Controller
                 'a.noctrl',
                 DB::raw("CONCAT(d.nombres, ' ', d.apellidop, ' ', d.apellidom) as docente")
             )
-            ->where('a.id', 22) //id alumno loggeado
+            ->where('a.id', Auth::user()->alumno_id) //id alumno loggeado
             ->where('t.periodo_id', $periodoActual->id)
             ->first();
 
@@ -333,7 +345,7 @@ class FormAlumnoController extends Controller
                 'r.temasEv',
                 'r.resultado'
             )
-            ->where('fa.alumno_id', 22) //id alumno loggeado
+            ->where('fa.alumno_id', Auth::user()->alumno_id) //id alumno loggeado
             ->where('g.periodo_id', $periodoActual->id)
             ->get();
 
@@ -356,12 +368,12 @@ class FormAlumnoController extends Controller
                 'd.apellidop',
                 'd.apellidom'
             )
-            ->where('a.id', 22)
+            ->where('a.id', Auth::user()->alumno_id) //id alumno loggeado
             ->where('pt.periodo_id', $periodoActual->id)
             ->get();
 
 
-        $templateProcessor = new TemplateProcessor(storage_path('app/public/formatoSeguimiento.docx'));
+        $templateProcessor = new TemplateProcessor(storage_path('app/public/formatoSeguimientoAs.docx'));
 
         //marcadores
         $templateProcessor->setValue('${fecha}', $fechaRendimiento->fechaR);

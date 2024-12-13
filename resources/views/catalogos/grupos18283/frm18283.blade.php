@@ -156,12 +156,12 @@
                 $contador = $contadorRegistros[$horaLabel] ?? 0;
                 @endphp
                 <div class="col-md-6 mb-4">
-                    <form method="POST" action="{{ $contador > 0 
-                                                ? route('grupos18283.destroyHorario', ['grupoId' => $grupo18283->id, 'dia' => 'Lunes', 'hora' => $horaLabel]) 
+                    <form method="POST" action="{{ $contador > 0
+                                                ? route('grupos18283.destroyHorario', ['grupoId' => $grupo18283->id, 'dia' => 'L', 'hora' => $horaLabel])
                                                 : route('grupos18283.storeHorario', $grupo18283->id) }}">
                         @csrf
                         @if ($contador > 0)
-                        @method('DELETE') <!-- Método DELETE para eliminar -->
+                        @method('DELETE')
                         @endif
                         @csrf
                         <div class="card">
@@ -174,7 +174,6 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col">
-                                        <!-- <label for="grupo18283_id_{{ $index }}" class="form-label">Grupo</label> -->
                                         <input
                                             type="hidden"
                                             class="form-control"
@@ -227,17 +226,15 @@
                                     </div>
 
                                     <div class="col">
-                                        <!-- <label for="dia_{{ $index }}" class="form-label">Dia</label> -->
-                                        <input type="hidden" name="dia" class="form-control" id="dia_{{ $index }}" value="Lunes" {{$desabilitado}} readonly>
+                                        <input type="text" name="dia" class="form-control" id="dia_{{ $index }}" value="L" {{$desabilitado}} readonly>
                                         @error('dia')
                                         <ul class="list-unstyled text-danger">
                                             <p>Error en la selección de grupo: {{ $message }}</p>
                                         </ul>
                                         @enderror
 
-                                        <!-- <label for="hora_{{ $index }}" class="form-label">Hora</label> -->
                                         <input
-                                            type="hidden"
+                                            type="text"
                                             name="hora"
                                             id="hora_{{ $index }}"
                                             class="form-control"
@@ -264,7 +261,6 @@
                                         id="checkbox_{{ $grupo18283->id }}"
                                         onchange="enviar(this)"
                                         @if ($contador> 0) checked @endif>
-
                                 </div>
                             </div>
                         </div>

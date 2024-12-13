@@ -8,6 +8,7 @@ use App\Models\Alumno;
 use App\Models\Puesto;
 use App\Models\Carrera;
 use App\Models\Catalogo;
+use App\Models\Grupo18283;
 use Illuminate\Http\Request;
 
 class CatalogoController extends Controller
@@ -17,18 +18,23 @@ class CatalogoController extends Controller
      */
     public function index()
     {
+
+
         $catalogos = Catalogo::get();
 
-        return view("catalogos.index", compact("catalogos"));
+        $countgrupo18283 = Grupo18283::selectRaw('COUNT(*) as grupo18283')->first();
+        return view("catalogos.index", compact("catalogos", "countgrupo18283"));
     }
 
 
     public function otraVista()
     {
-       
+
         return view("catalogos.otraVista");
+
+
     }
-    
+
 
     public function create()
     {

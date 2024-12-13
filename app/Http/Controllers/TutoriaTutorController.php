@@ -7,6 +7,7 @@ use App\Models\Periodo;
 use App\Models\Personal;
 use App\Models\TutoriaTutor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -32,7 +33,7 @@ class TutoriaTutorController extends Controller
 
         $tutordealumnos = DB::table('personals')
             ->select('id', 'nombres', 'apellidop', 'apellidom')
-            ->where('id', 1) // ID del tutor loggeado
+            ->where('id', Auth::user()->personal_id) // ID del tutor loggeado
             ->first();
 
         $alumnostutorados = DB::table('tutorias as t')
@@ -45,29 +46,28 @@ class TutoriaTutorController extends Controller
                 'c.nombreCarrera',
                 't.semestreAlumno',
                 DB::raw("CASE
-                WHEN a.noctrl IN (
-                    SELECT a.noctrl
-                    FROM rendimientos as r
-                    INNER JOIN form_alumnos as fa ON r.form_alumno_id = fa.id
-                    INNER JOIN periodo_tutorias as pt ON fa.periodo_tutoria_id = pt.id
-                    INNER JOIN alumnos as a ON fa.alumno_id = a.id
-                    WHERE pt.periodo_id = 2
-                ) THEN 'Registrado'
-                ELSE 'Pendiente'
-            END AS RegistroRendimientos")
+                    WHEN a.noctrl IN (
+                        SELECT a.noctrl
+                        FROM rendimientos as r
+                        INNER JOIN form_alumnos as fa ON r.form_alumno_id = fa.id
+                        INNER JOIN periodo_tutorias as pt ON fa.periodo_tutoria_id = pt.id
+                        INNER JOIN alumnos as a ON fa.alumno_id = a.id
+                        WHERE pt.periodo_id = " . $this->periodo_id . "
+                    ) THEN 'Registrado'
+                    ELSE 'Pendiente'
+                END AS RegistroRendimientos")
             )
             ->join('alumnos as a', 't.alumno_id', '=', 'a.id')
             ->join('carreras as c', 'a.carrera_id', '=', 'c.id')
             ->join('personals as d', 't.personal_id', '=', 'd.id')
-            ->where('d.id', 1) //id tutor loggeado
+            ->where('d.id', Auth::user()->personal_id) //id tutor loggeado
             ->where('t.periodo_id', $this->periodo_id)
             ->get();
 
 
+
         return view('catalogos.tutoriastutor.tablatutor', compact('periodos', 'tutordealumnos', 'alumnostutorados'));
     }
-
-    public function store(Request $request) {}
 
     public function show($noctrl, $idperiodo)
     {
@@ -123,7 +123,7 @@ class TutoriaTutorController extends Controller
 
         $tutor = DB::table('personals')
             ->select('id', 'nombres', 'apellidop', 'apellidom')
-            ->where('id', 1) // ID del tutor loggeado
+            ->where('id', Auth::user()->personal_id) // ID del tutor loggeado
             ->first();
 
         $nombretutor = 'TUTOR: ' . $tutor->nombres . ' ' . $tutor->apellidop . ' ' . $tutor->apellidom;
@@ -139,7 +139,7 @@ class TutoriaTutorController extends Controller
             ->join('tutorias as t', 'd.id', '=', 't.personal_id')
             ->join('periodos as p', 't.periodo_id', '=', 'p.id')
             ->join('alumnos as a', 't.alumno_id', '=', 'a.id')
-            ->where('d.id', 1) // ID del tutor loggeado
+            ->where('d.id', Auth::user()->personal_id) // ID del tutor loggeado
             ->where('p.id', $this->periodo_id)
             ->where('a.sexo', 'M')
             ->count();
@@ -148,7 +148,7 @@ class TutoriaTutorController extends Controller
             ->join('tutorias as t', 'd.id', '=', 't.personal_id')
             ->join('periodos as p', 't.periodo_id', '=', 'p.id')
             ->join('alumnos as a', 't.alumno_id', '=', 'a.id')
-            ->where('d.id', 1)
+            ->where('d.id', Auth::user()->personal_id)
             ->where('p.id', $this->periodo_id)
             ->where('a.sexo', 'F')
             ->count();
@@ -158,7 +158,7 @@ class TutoriaTutorController extends Controller
             ->join('periodos as p', 't.periodo_id', '=', 'p.id')
             ->join('alumnos as a', 't.alumno_id', '=', 'a.id')
             ->select('a.noctrl', 'a.nombre', 'a.apellidop', 'a.apellidom')
-            ->where('d.id', 1) //ID TUTOR LOGGEADO
+            ->where('d.id', Auth::user()->personal_id) //ID TUTOR LOGGEADO
             ->where('p.id', $this->periodo_id)
             ->get();
 
@@ -190,7 +190,7 @@ class TutoriaTutorController extends Controller
                 DB::raw("CONCAT(a.apellidop, ' ', a.apellidom, ' ', a.nombre) as nomAlumno"),
                 DB::raw("CONCAT(m.nombreMateria, '/', d.nombres, ' ', d.apellidop, ' ', d.apellidom) as MateriaAsesoria")
             )
-            ->where('g.periodo_id', 2)
+            ->where('g.periodo_id', $this->periodo_id)
             ->get();
 
         $seguimientoActual = DB::table(DB::raw('(

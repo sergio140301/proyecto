@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreignId('alumno_id')->nullable()->constrained();
             $table->rememberToken();
             $table->timestamps();
+
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

@@ -1,130 +1,193 @@
 @extends('inicio2')
 
 @section('contenido2')
-<div class="row">
-    <div class="col-6">
-        <h1 class="fw-bold">Selecciona uno</h1>
-        <ol class="list-group list-group-numbered">
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="fw-bold mb-4">Selecciona uno</h1>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                <!-- Grupo18283 -->
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Grupo18283</h5>
+                            <p class="card-text">Selecciona el grupo para ver más detalles.</p>
+                            <a href="{{ route('grupos18283.index') }}" class="btn btn-primary">Ver grupo18283</a>
+                            <span class="badge text-bg-primary rounded-pill mt-2">10</span>
+                        </div>
+                    </div>
+                </div>
 
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto">
-                    <div class="fw-bold">Grupo18283</div>
-                    <a href="{{ route('grupos18283.index')}}"><button class="badge text-bg-primary rounded-pill">Ver grupo18283</button></a>
+                <!-- Grupos Horarios -->
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Grupos Horarios</h5>
+                            <p class="card-text">Selecciona el grupo horario para más detalles.</p>
+                            <a href="{{ route('gruposhorarios18283.index') }}" class="btn btn-primary">Ver Grupos Horarios</a>
+                            <span class="badge text-bg-primary rounded-pill mt-2">10</span>
+                        </div>
+                    </div>
                 </div>
-                <span class="badge text-bg-primary rounded-pill">2000</span>
-            </li>
 
+                <!-- Periodos -->
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Periodos</h5>
+                            <p class="card-text">Accede a los periodos para más información.</p>
+                            <a href="{{ route('periodos.index') }}" class="btn btn-primary">Ver Periodos</a>
+                            <span class="badge text-bg-primary rounded-pill mt-2">10</span>
+                        </div>
+                    </div>
+                </div>
 
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto">
-                    <div class="fw-bold">Grupos Horarios</div>
-                    <a href="{{ route('gruposhorarios18283.index')}}"><button class="badge text-bg-primary rounded-pill">Ver Grupos Horarios</button></a>
+                <!-- Plazas -->
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Plazas</h5>
+                            <p class="card-text">Explora las plazas disponibles.</p>
+                            <a href="{{ route('plazas.index') }}" class="btn btn-primary">Ver Plazas</a>
+                            <span class="badge text-bg-primary rounded-pill mt-2">1</span>
+                        </div>
+                    </div>
                 </div>
-                <span class="badge text-bg-primary rounded-pill">10</span>
-            </li>
 
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto">
-                    <div class="fw-bold">Periodos</div>
-                    <a href="{{ route('periodos.index')}}"><button class="badge text-bg-primary rounded-pill">Ver Periodos</button></a>
+                <!-- Puestos -->
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Puestos</h5>
+                            <p class="card-text">Accede a los puestos disponibles.</p>
+                            <a href="{{ route('puestos.index') }}" class="btn btn-primary">Ver Puestos</a>
+                            <span class="badge text-bg-primary rounded-pill mt-2">4</span>
+                        </div>
+                    </div>
                 </div>
-                <span class="badge text-bg-primary rounded-pill">10</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto">
-                    <div class="fw-bold">Plazas</div>
-                    <a href="{{ route('plazas.index') }}"><button class="badge text-bg-primary rounded-pill">Ver Plazas</button></a>
-                </div>
-                <span class="badge text-bg-primary rounded-pill">1</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto">
-                    <div class="fw-bold">Puestos</div>
-                    <a href="{{ route('puestos.index') }}"><button class="badge text-bg-primary rounded-pill">Ver Puestos</button></a>
-                </div>
-                <span class="badge text-bg-primary rounded-pill">4</span>
-            </li>
-            
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto">
-                    <div class="fw-bold">Deptos</div>
-                    <a href="{{ route('deptos.index') }}"><button class="badge text-bg-primary rounded-pill">Ver Departamentos</button></a>
-                </div>
-                <span class="badge text-bg-primary rounded-pill">12</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto">
-                    <div class="fw-bold">Carreras</div>
-                    <a href="{{ route('carreras.index') }}"><button class="badge text-bg-primary rounded-pill">Ver Carreras</button></a>
-                </div>
-                <span class="badge text-bg-primary rounded-pill">16</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto">
-                    <div class="fw-bold">Reticulas</div>
-                    <a href="{{ route('reticulas.index')}}"><button class="badge text-bg-primary rounded-pill">Ver Reticulas</button></a>
-                </div>
-                <span class="badge text-bg-primary rounded-pill">3</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto">
-                    <div class="fw-bold">Materias</div>
-                    <a href="{{ route('materias.index')}}"><button class="badge text-bg-primary rounded-pill">Ver Materias</button></a>
-                </div>
-                <span class="badge text-bg-danger rounded-pill">5</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto">
-                    <div class="fw-bold">Alumnos</div>
-                    <a href="{{ route('alumnos.index') }}"><button class="badge text-bg-primary rounded-pill">Ver alumnos</button></a>
-                </div>
-                <span class="badge text-bg-primary rounded-pill">12</span>
-            </li>
 
-            <!-- NUEVOS CAMPOS DE PRACTICA 6  -->
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto">
-                    <div class="fw-bold">Personal</div>
-                    <a href="{{ route('personal.index')}}" ><button class="badge text-bg-warning rounded-pill">Ver Personal</button></a>
+                <!-- Deptos -->
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Deptos</h5>
+                            <p class="card-text">Consulta los departamentos.</p>
+                            <a href="{{ route('deptos.index') }}" class="btn btn-primary">Ver Departamentos</a>
+                            <span class="badge text-bg-primary rounded-pill mt-2">12</span>
+                        </div>
+                    </div>
                 </div>
-                <span class="badge text-bg-primary rounded-pill">10</span>
-            </li>
 
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto">
-                    <div class="fw-bold">Edificios</div>
-                    <a href="{{ route('edificios.index') }}"><button class="badge text-bg-warning rounded-pill">Ver Edificios</button></a>
+                <!-- Carreras -->
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Carreras</h5>
+                            <p class="card-text">Explora las carreras disponibles.</p>
+                            <a href="{{ route('carreras.index') }}" class="btn btn-primary">Ver Carreras</a>
+                            <span class="badge text-bg-primary rounded-pill mt-2">16</span>
+                        </div>
+                    </div>
                 </div>
-                <span class="badge text-bg-primary rounded-pill">8</span>
-            </li>
 
-            
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto">
-                    <div class="fw-bold">Lugares</div>
-                    <a href="{{ route('lugares.index') }}"><button class="badge text-bg-warning rounded-pill">Ver Lugares</button></a>
+                <!-- Reticulas -->
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Reticulas</h5>
+                            <p class="card-text">Consulta las retículas.</p>
+                            <a href="{{ route('reticulas.index') }}" class="btn btn-primary">Ver Retículas</a>
+                            <span class="badge text-bg-primary rounded-pill mt-2">3</span>
+                        </div>
+                    </div>
                 </div>
-                <span class="badge text-bg-primary rounded-pill">10</span> 
-            </li>
 
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto">
-                    <div class="fw-bold">Horas</div>
-                    <a href="{{ route('horas.index') }}"><button class="badge text-bg-warning rounded-pill">Ver Horas</button></a>
+                <!-- Materias -->
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Materias</h5>
+                            <p class="card-text">Accede a las materias disponibles.</p>
+                            <a href="{{ route('materias.index') }}" class="btn btn-primary">Ver Materias</a>
+                            <span class="badge text-bg-danger rounded-pill mt-2">5</span>
+                        </div>
+                    </div>
                 </div>
-                <span class="badge text-bg-primary rounded-pill">10</span> 
-            </li>
 
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto">
-                    <div class="fw-bold">Personal Plazas</div>
-                    <a href="{{ route('personalplazas.index') }}"><button class="badge text-bg-warning rounded-pill">Ver Personal Plazas</button></a>
+                <!-- Alumnos -->
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Alumnos</h5>
+                            <p class="card-text">Consulta los alumnos registrados.</p>
+                            <a href="{{ route('alumnos.index') }}" class="btn btn-primary">Ver Alumnos</a>
+                            <span class="badge text-bg-primary rounded-pill mt-2">12</span>
+                        </div>
+                    </div>
                 </div>
-                <span class="badge text-bg-primary rounded-pill">10</span> 
-            </li>
 
-        
-        </ol>
+                <!-- Personal -->
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Personal</h5>
+                            <p class="card-text">Accede a la información del personal.</p>
+                            <a href="{{ route('personal.index') }}" class="btn btn-warning">Ver Personal</a>
+                            <span class="badge text-bg-primary rounded-pill mt-2">10</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Edificios -->
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Edificios</h5>
+                            <p class="card-text">Consulta los edificios disponibles.</p>
+                            <a href="{{ route('edificios.index') }}" class="btn btn-warning">Ver Edificios</a>
+                            <span class="badge text-bg-primary rounded-pill mt-2">8</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lugares -->
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Lugares</h5>
+                            <p class="card-text">Accede a la información de lugares.</p>
+                            <a href="{{ route('lugares.index') }}" class="btn btn-warning">Ver Lugares</a>
+                            <span class="badge text-bg-primary rounded-pill mt-2">10</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Horas -->
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Horas</h5>
+                            <p class="card-text">Consulta las horas disponibles.</p>
+                            <a href="{{ route('horas.index') }}" class="btn btn-warning">Ver Horas</a>
+                            <span class="badge text-bg-primary rounded-pill mt-2">10</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personal Plazas -->
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Personal Plazas</h5>
+                            <p class="card-text">Consulta la información sobre personal plazas.</p>
+                            <a href="{{ route('personalplazas.index') }}" class="btn btn-warning">Ver Personal Plazas</a>
+                            <span class="badge text-bg-primary rounded-pill mt-2">10</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>
 @endsection

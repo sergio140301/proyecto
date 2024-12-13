@@ -28,15 +28,10 @@ use App\Http\Controllers\TutoriaController;
 use App\Http\Controllers\TutoriaTutorController;
 use App\Http\Controllers\AsesoriaController;
 
+use App\Http\Controllers\HorarioAlumnoController;
+
+
 //rutas del pryecto tutorias
-
-
-//VISTA ADMIN
-Route::middleware('auth')->group(function () {
-    Route::get('/periodotutorias.index', [PeriodoTutoriaController::class, 'index'])->name('periodotutorias.index');
-    Route::resource('periodotutorias', PeriodoTutoriaController::class);
-    Route::get('/periodotutorias', [PeriodoTutoriaController::class, 'index'])->name('periodotutorias');
-});
 
 //VISTA COORDINADOR
 Route::middleware('auth')->group(function () {
@@ -72,22 +67,6 @@ Route::middleware('auth')->group(function () {
     });
 
 
-
-
-//VISTA TUTOR
-Route::middleware('auth')->group(function () {
-    Route::get('/tutoriastutor', action: [TutoriaTutorController::class, 'index'])->name('tutoriastutor');
-
-    //tutorias
-    Route::get('/tutoriastutor.tablatutor', [TutoriaTutorController::class, 'index'])->name('tutoriastutor.tablatutor');
-    Route::get('/tutoriastutor/{noctrl}/{idperiodo}', [TutoriaTutorController::class, 'show'])->name('tutoriastutor.show');
-    Route::get('/tutoriastutor/generar-excel', [TutoriaTutorController::class, 'generarExcel'])->name('tutoriastutor.generarExcel');
-
-});
-
-
-
-
 //VISTA ALUMNOS
 Route::middleware('auth')->group(function () {
     Route::get('/formalumnos.index', [FormAlumnoController::class, 'index'])->name('formalumnos.index');
@@ -99,10 +78,18 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/formalumnos.asesoriasalumno', [FormAlumnoController::class, 'index2'])->name('formalumnos.asesoriasalumno');
     Route::get('/generar-reporte-asesoria', [FormAlumnoController::class, 'generaReporteAsesoria'])->name('generar-reporte-asesoria');
-
-
 });
 
+
+//VISTA ADMIN
+Route::middleware('auth')->group(function () {
+    Route::get('/periodotutorias.index', [PeriodoTutoriaController::class, 'index'])->name('periodotutorias.index');
+    Route::resource('periodotutorias', PeriodoTutoriaController::class);
+    Route::get('/periodotutorias', [PeriodoTutoriaController::class, 'index'])->name('periodotutorias');
+
+    Route::get('/horarioalumnos', [HorarioAlumnoController::class, 'index'])->name('horarioalumnos');
+    Route::post('/horarioalumnos.store', [HorarioAlumnoController::class, 'store'])->name('horarioalumnos.store');
+});
 
 
 //EXAMEN TABLA GRUPOS
@@ -376,31 +363,6 @@ Route::middleware('auth')->group(function () {
     // Ruta alternativa para mostrar grupoHorarios
     Route::get('/apertura-grupo', [GrupoHorarioController::class, 'index'])->name('aperturagrupo');
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-use App\Http\Controllers\ProyectoPersonaleController;
-
-
 
 
 

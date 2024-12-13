@@ -20,8 +20,12 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'rol',
         'password',
-    ];
+        'alumno_id',
+        'personal_id'
+    ]; //agg rol, y foraneas
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -45,4 +49,17 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    //agg relacion
+    public function Alumno()
+    {
+        return $this->belongsTo(Alumno::class, 'alumno_id');
+    }
+
+    public function Personal()
+    {
+        return $this->belongsTo(Personal::class, 'personal_id');
+    }
+
+
 }

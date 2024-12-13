@@ -8,7 +8,7 @@
 
     @vite(['resources/js/app.js'])
 
-    <title>Proyecto Horarios</title>
+    <title>Proyecto Tutorias</title>
 
     <style>
         body {
@@ -59,22 +59,21 @@
         <section class="hero-section" style="background-color: #160142;">
             <div class="text-center">
                 <h1 class="hero-title">PROYECTO</h1>
-                <h2 class="hero-subtitle">HORARIOS MATERIAS <br> INICIA SESION O REGISTRATE</h2>
+
+                <h2 class="hero-subtitle">TUTORIAS <br> INICIA SESION O REGISTRATE</h2>
             </div>
         </section>
         <div class="container my-4">
             <div class="card text-center">
                 <div class="card-body">
-                    <img src="{{ asset('img/logo-tec.png') }}" width="50px">  
+                    <img src="{{ asset('img/logo-tec.png') }}" width="50px">
                     <h5 class="card-title">Información Importante</h5>
                     <p class="card-text">
-                        Debes iniciar sesión para poder seleccionar
-                        los semestres con sus materias respectivas...
+                        Debes iniciar sesión para poder acceder al sistema
+                        con el usuario asignado...
                     </p>
                     <p class="card-text">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore, officia! Obcaecati, <br>
-                        fugit rem molestiae earum maxime eveniet. Consequatur maiores consectetur dolor nostrum. <br>
-                        Ullam aut ut incidunt tempora veritatis dolor quaerat.
+                        Bienvenido al sistema de tutorias del Instituto Tecnológico de Piedras Negras.
                     </p>
                 </div>
             </div>

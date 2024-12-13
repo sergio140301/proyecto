@@ -22,6 +22,20 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('tutorias')}}">Tutorías</a>
                 </li>
+                <div class="d-flex ms-2">
+                    @guest
+                        <a href="{{ route('register') }}" class="btn btn-outline-warning me-2">Registrarse</a>
+                        <a href="{{ route('login') }}" class="btn btn-outline-success">Iniciar Sesión</a>
+                    @endguest
+                    @auth
+                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                            @csrf
+                            <button class="btn btn-outline-danger">Salir</button>
+                        </form>
+
+                    @endauth
+
+                </div>
             </ul>
         </div>
     </div>

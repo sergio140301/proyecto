@@ -15,16 +15,16 @@ class AuthenticatedSessionController extends Controller
     {
         // 1. Autenticación del usuario
         $request->authenticate();
-    
+
         // 2. Regenera la sesión
         $request->session()->regenerate();
-    
+
         // 3. Obtiene el usuario autenticado y su correo
         $user = Auth::user();
         $email = $user->email;
-    
+
         // 4. Asigna el navbar según el tipo de usuario basado en la letra del correo electrónico
-    
+
         // Si el email comienza con 'A', asigna el navbar del admin
         if (str_starts_with($email, 'A')) {
             session(['navbar' => '1-navbar-admin']);
@@ -55,6 +55,11 @@ class AuthenticatedSessionController extends Controller
     public function create(): View
     {
         return view('auth.login');  // Vista de login
+    }
+
+    protected function redirectTo()
+    {
+        return '/inicio2';
     }
 
     /**

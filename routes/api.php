@@ -17,8 +17,9 @@ Route::get('/periodos', [JsonController::class, 'periodos']);
 Route::get('/personal', [JsonController::class, 'personal']);
 Route::get('/edificios', [JsonController::class, 'edificios']);
 Route::get('/lugar', [JsonController::class, 'lugar']);
-Route::get('/grupos', [JsonController::class, 'grupos']);
+Route::get('/grupo18283', [JsonController::class, 'grupo18283']);
 
 Route::post('/insertar-grupo', [JsonController::class, 'insertarGrupo']);
 Route::post('/insertar-grupo-horario', [JsonController::class, 'insertarGrupoHorario']);
 Route::post('/eliminar-grupo-horario', [JsonController::class, 'eliminarGrupoHorario']);
+

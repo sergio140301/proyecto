@@ -5,6 +5,7 @@
             <div class="text-light ms-3">
                 <p class="mb-0">Usuario: {{ Auth::user()->name }}</p>
                 <p class="mb-0">Correo: {{ Auth::user()->email }}</p>
+                <p class="mb-0">Rol: {{ Auth::user()->rol }}</p>
             </div>
         </ul>
     </div>

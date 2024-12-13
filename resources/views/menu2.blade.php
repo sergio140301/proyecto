@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proyecto Horarios</title>
+    <title>Proyecto Tutorias</title>
 </head>
 
 <body>
@@ -34,7 +34,7 @@
                         <a class="nav-link" href="#">Tutorías</a>
                     </li>
                 </ul>
-                
+
                 <div class="d-flex ms-2">
                     @guest
                         <a href="{{ route('register') }}" class="btn btn-outline-warning me-2">Registrarse</a>

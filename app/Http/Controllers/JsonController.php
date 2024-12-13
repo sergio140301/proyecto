@@ -6,17 +6,17 @@ use App\Models\Depto;
 use App\Models\Grupo;
 use App\Models\Lugar;
 use App\Models\Edificio;
+use App\Models\Grupo18283;
 use App\Models\Personal;
 use App\Models\GrupoHorario;
+use App\Models\GrupoHorario18283;
 use Illuminate\Http\Request;
 use App\Models\MateriaAbierta;
 use Illuminate\Support\Facades\Log;
 
 class JsonController extends Controller
 {
-    /* Todo de MateriaAbierta */
 
-    /* Periodo */
     public function periodos()
     {
         $periodos = MateriaAbierta::with(['periodo:id,periodo'])
@@ -42,7 +42,7 @@ class JsonController extends Controller
         ->unique('materia.semestre');
         return $semestres;
     }
-    
+
     /* Materia */
     public function materias()
     {
@@ -78,7 +78,7 @@ class JsonController extends Controller
 
     /* Grupo */
     public function grupos() {
-        $grupos = Grupo::get();
+        $grupos = Grupo18283::get();
         return $grupos;
     }
 
@@ -87,7 +87,7 @@ class JsonController extends Controller
     {
         try {
             Log::info('Datos recibidos:', $request->all());
-    
+
             $validatedData = $request->validate([
                 'grupo' => 'required|string|max:5',
                 'descripcion' => 'required|string|max:200',
@@ -97,34 +97,34 @@ class JsonController extends Controller
                 'materia_abierta_id' => 'required|exists:materia_abiertas,id',
                 'personal_id' => 'nullable|exists:personals,id',
             ]);
-    
+
             // Verificar si el grupo existe para actualizarlo
-            $grupo = Grupo::where('grupo', $validatedData['grupo'])->first();
-    
+            $grupo = Grupo18283::where('grupo', $validatedData['grupo'])->first();
+
             if ($grupo) {
                 // Si el grupo existe, actualízalo
                 $grupo->update($validatedData);
             } else {
                 // Si el grupo no existe, créalo
-                $grupo = Grupo::create($validatedData);
+                $grupo = Grupo18283::create($validatedData);
             }
-    
+
             return response()->json([
                 'success' => true,
                 'message' => $grupo->exists ? 'Grupo actualizado exitosamente' : 'Grupo creado exitosamente',
                 'grupo' => $grupo,
             ], 200);
-    
+
         } catch (\Exception $e) {
             Log::error('Error al insertar o actualizar el grupo:', ['message' => $e->getMessage()]);
-    
+
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage(),
             ], 500);
         }
-    }    
-    
+    }
+
     /* Insertar Grupo Horario*/
     public function insertarGrupoHorario(Request $request)
     {
@@ -137,7 +137,7 @@ class JsonController extends Controller
 
         try {
             // Validación adicional para prevenir duplicados
-            $exists = GrupoHorario::where('grupo_id', $validated['grupo_id'])
+            $exists = GrupoHorario18283::where('grupo_id', $validated['grupo_id'])
                 ->where('dia', $validated['dia'])
                 ->where('hora', $validated['hora'])
                 ->where('lugar_id', $validated['lugar_id'])
@@ -149,7 +149,7 @@ class JsonController extends Controller
                 ], 422);
             }
 
-            $grupoHorario = GrupoHorario::create([
+            $grupoHorario = GrupoHorario18283::create([
                 'grupo_id' => $validated['grupo_id'],
                 'lugar_id' => $validated['lugar_id'],
                 'dia' => $validated['dia'],
@@ -166,7 +166,7 @@ class JsonController extends Controller
                 'error' => $e->getMessage(),
             ], 500);
         }
-    } 
+    }
 
     /* Eliminar Grupo Horario */
     public function eliminarGrupoHorario(Request $request)
@@ -179,7 +179,7 @@ class JsonController extends Controller
         ]);
 
         try {
-            $grupoHorario = GrupoHorario::where('grupo_id', $validated['grupo_id'])
+            $grupoHorario = GrupoHorario18283::where('grupo_id', $validated['grupo_id'])
                 ->where('lugar_id', $validated['lugar_id'])
                 ->where('dia', $validated['dia'])
                 ->where('hora', $validated['hora'])

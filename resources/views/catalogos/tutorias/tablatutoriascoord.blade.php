@@ -41,34 +41,39 @@
     <div class="table-responsive mt-3">
         <table class="table table-bordered table-hover table-primary">
             <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Periodo</th>
-                    <th scope="col">Tutor</th>
-                    <th scope="col">Ver Tutorados</th>
-                    <th scope="col">Descargar Reporte</th>
-                </tr>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Periodo</th>
+                <th scope="col">Tutor</th>
+                <th scope="col">Ver Tutorados</th>
+                <th scope="col">Descargar Reporte</th>
+            </tr>
             </thead>
             <tbody>
-                @foreach ($tutorias as $tutoria)
-                    <tr>
-                        <td>{{ $tutoria->id }}</td>
-                        <td>{{ $tutoria->periodo }}</td>
-                        <td>{{ $tutoria->nombres }} {{ $tutoria->apellidop }} {{ $tutoria->apellidom }}</td>
-                        <td>
-                            <a href="{{ route('tutorias.show', ['iddocente' => $tutoria->id, 'periodo' => $tutoria->periodo]) }}">
-                                <img src="{{ asset('img/icono-ver.png') }}" width="50px" alt="Ver tutorados">
-                            </a>
-                        </td>
-                        <td>
-                            <a href="{{ route('tutorias.reporte', ['iddocente' => $tutoria->id, 'periodo' => $tutoria->periodo]) }}">
-                                <img src="{{ asset('img/downloading.png') }}" width="50px" alt="Descargar Reporte">
-                            </a>
-                        </td>
-                    </tr>
-                @endforeach
+            @foreach ($tutorias as $tutoria)
+                <tr>
+                <td>{{ $tutoria->id }}</td>
+                <td>{{ $tutoria->periodo }}</td>
+                <td>{{ $tutoria->nombres }} {{ $tutoria->apellidop }} {{ $tutoria->apellidom }}</td>
+                <td>
+                    <a href="{{ route('tutorias.show', ['iddocente' => $tutoria->id, 'periodo' => $tutoria->periodo]) }}">
+                    <img src="{{ asset('img/icono-ver.png') }}" width="50px" alt="Ver tutorados">
+                    </a>
+                </td>
+                <td>
+                    <a href="{{ route('tutorias.reporte', ['iddocente' => $tutoria->id, 'periodo' => $tutoria->periodo]) }}">
+                    <img src="{{ asset('img/downloading.png') }}" width="50px" alt="Descargar Reporte">
+                    </a>
+                </td>
+                </tr>
+            @endforeach
             </tbody>
         </table>
+
+        <!-- Paginación -->
+        <div class="d-flex justify-content-center mt-3">
+            {{ $tutorias->links() }}
+        </div>
     </div>
 </div>
 
