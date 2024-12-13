@@ -27,7 +27,7 @@ use App\Http\Controllers\RendimientoController;
 use App\Http\Controllers\TutoriaController;
 use App\Http\Controllers\TutoriaTutorController;
 use App\Http\Controllers\AsesoriaController;
-
+use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\HorarioAlumnoController;
 
 
@@ -95,19 +95,19 @@ Route::middleware('auth')->group(function () {
 //EXAMEN TABLA GRUPOS
 
 Route::middleware('auth')->group(function () {
-    Route::resource('grupos18283', Grupo18283Controller::class);
-    Route::get('/grupos18283.index', [Grupo18283Controller::class, 'index'])->name('grupos18283.index');
-    Route::get('/grupos18283.create', [Grupo18283Controller::class, 'create'])->name('grupos18283.create');
-    Route::post('/grupos18283.store', [Grupo18283Controller::class, 'store'])->name('grupos18283.store');
-    Route::get('/grupos18283.show/{grupo18283}', [Grupo18283Controller::class, 'show'])->name('grupos18283.show');
-    Route::get('/grupos18283.edit/{grupo18283}', [Grupo18283Controller::class, 'edit'])->name('grupos18283.edit');
-    Route::put('/grupos18283.update/{grupo18283}', [Grupo18283Controller::class, 'update'])->name('grupos18283.update');
+    Route::resource('grupos18283', GrupoController::class);
+    Route::get('/grupos18283.index', [GrupoController::class, 'index'])->name('grupos18283.index');
+    Route::get('/grupos18283.create', [GrupoController::class, 'create'])->name('grupos18283.create');
+    Route::post('/grupos18283.store', [GrupoController::class, 'store'])->name('grupos18283.store');
+    Route::get('/grupos18283.show/{grupo18283}', [GrupoController::class, 'show'])->name('grupos18283.show');
+    Route::get('/grupos18283.edit/{grupo18283}', [GrupoController::class, 'edit'])->name('grupos18283.edit');
+    Route::put('/grupos18283.update/{grupo18283}', [GrupoController::class, 'update'])->name('grupos18283.update');
 
-    Route::post('/grupos18283/{grupoId}/horario/store', [Grupo18283Controller::class, 'storeHorario'])->name('grupos18283.storeHorario');
-    Route::delete('/grupos18283/{grupoId}/horario/{dia}/{hora}', [Grupo18283Controller::class, 'destroyHorario'])->name('grupos18283.destroyHorario');
+    /* Route::post('/grupos18283/{grupoId}/horario/store', [Grupo18283Controller::class, 'storeHorario'])->name('grupos18283.storeHorario');
+    Route::delete('/grupos18283/{grupoId}/horario/{dia}/{hora}', [Grupo18283Controller::class, 'destroyHorario'])->name('grupos18283.destroyHorario'); */
 
-    Route::get('/grupos18283/eliminar/{grupo18283}', [Grupo18283Controller::class, 'eliminar'])->name('grupos18283.eliminar');
-    Route::delete('/grupos18283/{grupo18283}', [Grupo18283Controller::class, 'destroy'])->name('grupos18283.destroy');
+    Route::get('/grupos18283/eliminar/{grupo18283}', [GrupoController::class, 'eliminar'])->name('grupos18283.eliminar');
+    Route::delete('/grupos18283/{grupo18283}', [GrupoController::class, 'destroy'])->name('grupos18283.destroy');
 });
 
 
