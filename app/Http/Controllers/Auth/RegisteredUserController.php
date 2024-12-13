@@ -24,7 +24,7 @@ class RegisteredUserController extends Controller
 
     protected function redirectTo()
     {
-        return '/inicio2'; 
+        return '/inicio2';
     }
     /**
      * Handle an incoming registration request.
@@ -43,6 +43,8 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            /* 'rol' => 'admin',
+            'personal_id' => 13 */
         ]);
 
         event(new Registered($user));
