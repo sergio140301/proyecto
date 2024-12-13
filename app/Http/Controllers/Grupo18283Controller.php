@@ -172,7 +172,7 @@ class Grupo18283Controller extends Controller
 
         // Validar los datos enviados del formulario específico
         $request->validate([
-            'grupo18283_id' => 'required|exists:grupos,id',
+            'grupo_id' => 'required|exists:grupos,id',
             'dia' => 'required|string|max:20',
             'hora' => 'required|string|max:50',
             'lugar_id' => 'required|exists:lugars,id',
