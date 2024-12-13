@@ -123,12 +123,12 @@ class Grupo18283Controller extends Controller
 
         foreach ($horas as $hora) {
             $horaLabel = $hora->hora_ini . ' - ' . $hora->hora_fin;
-            $contador = GrupoHorario18283::where('grupo18283_id', $grupo18283->id)
+            $contador = GrupoHorario18283::where('grupo_id', $grupo18283->id)
                 ->where('dia', $dia)
                 ->where('hora', $horaLabel)
                 ->count();
 
-            $registro = GrupoHorario18283::where('grupo18283_id', $grupo18283->id)
+            $registro = GrupoHorario18283::where('grupo_id', $grupo18283->id)
                 ->where('dia', $dia)
                 ->where('hora', $horaLabel)
                 ->first();
