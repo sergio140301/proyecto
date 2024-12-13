@@ -18,19 +18,19 @@ class GrupoHorario18283Controller extends Controller
         $this->validado = [
             'dia' => 'required|string|max:255',
             'hora' => 'required|string|max:50',
-            'grupo18283_id' => 'required|exists:grupo18283s,id',
+            'grupo_id' => 'required|exists:grupos,id',
             'lugar_id' => 'required|exists:lugars,id',
         ];
 
     }
- 
+
     public function index()
     {
         $txtBuscar = request('txtBuscar', '');
 
-        $grupo18283 = Grupo18283::get(); 
-        $lugar = Lugar::get(); 
- 
+        $grupo18283 = Grupo18283::get();
+        $lugar = Lugar::get();
+
 
         $grupohorario18283s = GrupoHorario18283::when($txtBuscar, function ($query) use ($txtBuscar) {
             return $query->where('dia', 'like', '%' . $txtBuscar . '%');
@@ -40,7 +40,7 @@ class GrupoHorario18283Controller extends Controller
 
         return view('catalogos.gruposhorarios18283.index18283', compact('grupohorario18283s', 'txtBuscar', 'grupo18283', 'lugar'));
     }
- 
+
 
     public function create()
     {
@@ -115,7 +115,7 @@ class GrupoHorario18283Controller extends Controller
     public function eliminar(GrupoHorario18283 $grupoHorario18283)
     {
         $grupohorario18283s = GrupoHorario18283::paginate(5);
-        
+
         return view('catalogos.gruposhorarios18283.eliminar18283', compact('grupohorario18283s', 'grupoHorario18283'));
     }
 
