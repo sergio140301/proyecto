@@ -10,7 +10,7 @@ class Grupo18283 extends Model
     /** @use HasFactory<\Database\Factories\Grupo18283Factory> */
     use HasFactory;
     // Definir el nombre de la tabla
-    protected $table = 'grupo18283s';
+    protected $table = 'grupos';
     protected $fillable = ['grupo', 'descripcion', 'maxAlumnos', 'periodo_id', 'materia_id', 'personal_id'];
 
     //PERTENECE A llaves fora
@@ -31,9 +31,9 @@ class Grupo18283 extends Model
 
 
     //TIENE MUCHOS
-    public function grupoHorario18283()
+    public function grupoHorario()
     {
-        return $this->hasMany(GrupoHorario18283::class);
+        return $this->hasMany(GrupoHorario::class);
     }
 
     public function horarioMaestroGrupo()

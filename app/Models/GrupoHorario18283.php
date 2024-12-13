@@ -10,13 +10,13 @@ class GrupoHorario18283 extends Model
     /** @use HasFactory<\Database\Factories\GrupoHorario18283Factory> */
     use HasFactory;
 
-    protected $table = 'grupo_horario18283s';
+    protected $table = 'grupo_horarios';
 
-    protected $fillable = ['dia', 'hora', 'grupo18283_id','lugar_id'] ;
+    protected $fillable = ['dia', 'hora', 'grupo_id','lugar_id'] ;
 
     public function grupo18283()
     {
-        return $this->belongsTo(Grupo18283::class, 'grupo18283_id');
+        return $this->belongsTo(Grupo::class, 'grupo_id');
     }
 
     public function lugar()
